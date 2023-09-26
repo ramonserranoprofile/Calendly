@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../assets/css/style2.css">
+    <title>Programa una Cita</title>
+    <!-- Agrega aquí los enlaces a tus archivos de CSS si los tienes -->
+</head>
+
+<body>
+    <div class="container">
+        <h1>¡Programa una Cita!</h1>
+        <p>¿Listo para comenzar? Haz clic en el botón de abajo para programar una cita con nosotros.</p>
+        <a href="https://calendly.com/ramonserrano76/30min?" class="cta-button" target="_blank">Programar Cita</a>
+    </div>
+
+    <div class="container">
+        <h1>Contact Me</h1>
+        <form action="http://127.0.0.1:5000/process_form" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" placeholder="entre texto" rows="4" required></textarea><br><br>
+            <input type="submit" value="Send">
+        </form>
+    </div>
+</body>
+
+</html>
