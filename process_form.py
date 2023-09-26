@@ -57,4 +57,4 @@ def procesar_formulario():
     return redirect('/#contact-title')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
