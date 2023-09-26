@@ -119,22 +119,22 @@
                                                                             </svg>
                                                                         </a>
                                                                         <ul class="dropdown-menu">
-                                                                            <li><a class="dropdown-item" id="scroll-link"
-                                                                                    href="#portfolio-item-title-1">E-commerce
+                                                                            <li><a class="dropdown-item scroll-link" data-offset="-20"
+                                                                                href="#portfolio-item-title-1">E-commerce 
                                                                                     Website</a></li>
-                                                                            <li><a class="dropdown-item" id="scroll-link"
+                                                                            <li><a class="dropdown-item scroll-link" data-offset="-20"
                                                                                     href="#portfolio-item-title-2">Data
                                                                                     Analysis Dashboard</a></li>
-                                                                            <li><a class="dropdown-item" id="scroll-link"
+                                                                            <li><a class="dropdown-item scroll-link" data-offset="-20"
                                                                                     href="#portfolio-item-title-3">Machine
                                                                                     Learning Model</a></li>
-                                                                            <li><a class="dropdown-item" id="scroll-link"
+                                                                            <li><a class="dropdown-item scroll-link" data-offset="-20"
                                                                                     href="#portfolio-item-title-4">API
                                                                                     Development</a></li>
-                                                                            <li><a class="dropdown-item" id="scroll-link"
+                                                                            <li><a class="dropdown-item scroll-link" data-offset="-20"
                                                                                     href="#portfolio-item-title-5">Data
                                                                                     Visualization</a></li>
-                                                                            <li><a class="dropdown-item" id="scroll-link"
+                                                                            <li><a class="dropdown-item scroll-link" data-offset="-20"
                                                                                     href="#portfolio-item-title-6">Predictive
                                                                                     Analytics</a></li>
                                                                         </ul>
@@ -976,30 +976,30 @@
                                                                     method="post" name="Contact form">
                                                                     <div class="input input--light"
                                                                         data-qa="form-field-name">
-                                                                        <label data-v-b6576945=""
+                                                                        <label for="name" data-v-b6576945=""
                                                                             class="input__label input__label--light">Name</label>
-                                                                        <input data-v-b6576945=""
-                                                                            placeholder="Your name" type="text"
-                                                                            name="name"
-                                                                            class="input__component input__component--dark">
+                                                                        <input data-v-b6576945="" type="text" id="name" name="name"
+                                                                            placeholder="Your name" 
+                                                                            autocomplete="name"
+                                                                            class="input__component input__component--dark" required>
                                                                     </div>
                                                                     <div class="input input--light"
                                                                         data-qa="form-field-youremail">
-                                                                        <label data-v-b6576945=""
+                                                                        <label for="email" data-v-b6576945=""
                                                                             class="input__label input__label--light">Your
                                                                             email*</label>
-                                                                        <input data-v-b6576945=""
-                                                                            placeholder="Your email address" type="text"
-                                                                            name="email"
+                                                                        <input data-v-b6576945="" type="text" id="email" name="email"
+                                                                            placeholder="Your email address" 
+                                                                            autocomplete="email"
                                                                             class="input__component input__component--dark" required>
                                                                     </div>
                                                                     <div class="input input--light"
                                                                         data-qa="form-field-message">
-                                                                        <label data-v-b6576945=""
+                                                                        <label for="message" data-v-b6576945=""
                                                                             class="input__label input__label--light">Message*</label>
-                                                                        <textarea data-v-b6576945="" id="message"
-                                                                            name="message"
-                                                                            placeholder="Enter your message" type="text"
+                                                                        <textarea data-v-b6576945="" id="message" name="message"                                                                            
+                                                                            placeholder="Enter your message"
+                                                                            autocomplete="message"
                                                                             class="input__component input__component--textarea input__component--dark" required></textarea>
                                                                     </div>
                                                                     <button data-v-5b27dff6="" data-v-426a228c=""
@@ -1088,6 +1088,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.2.min.js"
         integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <!-- Enlazar JS Floating WhatsApp -->    
     <script>
         jQuery(document).ready(function ($) {
@@ -1110,9 +1111,9 @@
             });
         });
     </script>
-    <script src="../static/js/main.js" type="text/javascript"></script>
+    
     <!-- Enlace al archivo JavaScript de Bootstrap (jQuery y Popper.js deben cargarse primero) -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     

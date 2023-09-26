@@ -16,26 +16,3 @@ window.addEventListener('scroll', function () {
         btnScrollToTop.style.display = 'none';
     }
 });
-
-// Escuchar eventos de clic en enlaces con la clase "scroll-link"
-document.querySelectorAll('.scroll-link').forEach(function (link) {
-    link.addEventListener('click', function (event) {
-        event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-
-        // Obtener el objetivo del enlace (ejemplo: "#portfolio-item-title-1")
-        const targetId = this.getAttribute('href');
-
-        // Obtener el desplazamiento personalizado de los datos del atributo "data-offset"
-        const offset = parseInt(this.getAttribute('data-offset')) || 0;
-
-        // Calcular la posición del objetivo restando el desplazamiento personalizado
-        const targetElement = document.querySelector(targetId);
-        const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
-
-        // Desplazarse a la posición del objetivo
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth' // Opcional: animar el desplazamiento
-        });
-    });
-});
