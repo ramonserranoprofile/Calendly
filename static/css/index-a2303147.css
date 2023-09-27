@@ -36876,3 +36876,152 @@ rgba-string-color-picker[data-v-1221a769]::part(alpha-pointer):after {
     width: 100%;
     height: 100%
 }
+
+/* Estilos para tamaños de pantalla más pequeños, como dispositivos móviles */
+@media (max-width: 767px) {
+
+    /* Ajusta el relleno del bloque */
+    .block[data-block-id="zP_qkl"] {
+        --m-block-padding: 20px;
+        /* Ajusta el valor según tus preferencias */
+    }
+
+    /* Ajusta el ancho del bloque de dirección de correo electrónico */
+    .layout-element[data-element-id="zQuGq6"] {
+        --m-width: 100%;
+        /* El ancho ocupará el 100% del contenedor */
+    }
+
+    /* Ajusta el ancho del bloque de iconos sociales */
+    .layout-element[data-element-id="zmIIC_"] {
+        --m-width: 100%;
+        /* El ancho ocupará el 100% del contenedor */
+    }
+
+    /* Alinea los elementos de forma vertical en dispositivos móviles */
+    .block-layout[data-block-ref="zP_qkl"] {
+        --m-grid-template-rows: auto auto auto;
+        /* Ajusta según tus necesidades */
+    }
+}
+/* Estilos para tamaños de pantalla pequeños (por ejemplo, dispositivos móviles) */
+@media (max-width: 768px) {
+
+    /* Alinea el texto en el centro */
+    .layout-element--controls-disabled {
+        text-align: center;
+    }
+
+    /* Aumenta el tamaño de fuente del título */
+    h1 {
+        font-size: 24px;
+    }
+
+    /* Reduce el margen inferior del título */
+    .layout-element--layout[data-element-id="hero-title"] {
+        margin-bottom: 0px;
+    }
+
+    /* Reduce el margen inferior del párrafo de descripción */
+    .layout-element--layout[data-element-id="hero-description"] {
+        margin-bottom: 0px;
+    }
+
+    /* Cambia el tamaño de las imágenes para adaptarse a pantallas más pequeñas */
+    .layout-element--layout[data-element-id="hero-image-1"] img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Estilos para tamaños de pantalla entre 1024px y 1224px */
+@media (min-width: 1024px) and (max-width: 1224px) {
+
+    /* Ajusta el ancho del fondo de la sección */
+    .block__background {
+        width: 100%;
+        /* o el valor deseado */
+    }
+
+    /* Ajusta el ancho de otros elementos según sea necesario */
+    /* .layout-element[data-element-id="..."] {
+        width: ...;
+    } */
+}
+
+/* Estilos para pantallas pequeñas (1024px a 1224px) */
+@media screen and (max-width: 1224px) {
+
+    /* Aquí puedes ajustar estilos, como tamaños de fuente o márgenes */
+    body {
+        font-size: 16px;
+    }
+
+    /* Asegúrate de que las imágenes se ajusten correctamente */
+    .image {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1224px) {
+
+    /* Ajusta el ancho máximo de las imágenes para evitar desbordamiento */
+    .image {
+        max-width: 100%;
+        /* Asegura que las imágenes no sean más anchas que su contenedor */
+    }
+
+    /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1224px) {
+
+    /* Asegura que el contenido no se desborde horizontalmente */
+    .block-layout-container {
+        overflow-x: auto;
+        /* Agrega una barra de desplazamiento horizontal si es necesario */
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1224px) {
+
+    /* Ajusta el ancho de las imágenes al 100% del contenedor */
+    .layout-element--controls-disabled.block-layout__element .image--grid.loaded img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    /* Reduce el margen superior del elemento que contiene el título */
+    .portfolio-title-container {
+        margin-top: 20px;
+        /* Ajusta el valor según tus necesidades */
+    }
+
+    /* O reduce el relleno superior del elemento que contiene el texto descriptivo */
+    .portfolio-description-container {
+        padding-top: 20px;
+        /* Ajusta el valor según tus necesidades */
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    /* Reduce el margen superior del elemento que contiene el título */
+    .layout-element.layout-element--layout.layout-element.layout-element--controls-disabled.block-layout__element h3 {
+        margin-top: 0px;
+        /* Ajusta el valor según tus necesidades */
+    }
+
+    /* Reduce el margen superior del elemento que contiene el texto descriptivo */
+    .layout-element.layout-element--layout.layout-element.layout-element--controls-disabled.block-layout__element p {
+        margin-top: 0px;
+        /* Ajusta el valor según tus necesidades */
+    }
+}
