@@ -1,0 +1,180 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Encabezado */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Banner de Inicio */
+.banner {
+    text-align: center;
+    padding: 100px 0;
+    background-image: url('banner-image.jpg');
+    /* Reemplazar con la imagen adecuada */
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.banner h1 {
+    font-size: 36px;
+}
+
+.banner p {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff6600;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background-color: #ff9933;
+}
+
+/* Acerca de Nosotros */
+#acerca-de {
+    background-color: #f5f5f5;
+    padding: 40px 0;
+}
+
+/* Nuestros Servicios */
+#servicios {
+    padding: 40px 0;
+}
+
+.service {
+    margin-bottom: 40px;
+}
+
+.service h3 {
+    font-size: 24px;
+}
+
+/* Por Qué Elegirnos */
+#por-que-elegirnos {
+    background-color: #f5f5f5;
+    padding: 40px 0;
+}
+
+/* Nuestra Red de Colaboradores */
+#red-de-colaboradores {
+    padding: 40px 0;
+}
+
+/* Contáctanos */
+#contacto {
+    background-color: #f5f5f5;
+    padding: 40px 0;
+}
+
+/* Testimonios */
+#testimonios {
+    padding: 40px 0;
+}
+
+.testimonial {
+    margin-bottom: 40px;
+}
+
+.testimonial p {
+    font-style: italic;
+}
+
+.testimonial cite {
+    font-weight: bold;
+}
+
+/* Pie de Página */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+footer ul li:last-child {
+    margin-right: 0;
+}
+
+footer ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Estilos para dispositivos móviles (opcional) */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .banner {
+        padding: 60px 0;
+    }
+
+    .banner h1 {
+        font-size: 24px;
+    }
+
+    .banner p {
+        font-size: 16px;
+    }
+
+    .service h3 {
+        font-size: 20px;
+    }
+}
