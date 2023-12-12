@@ -1,4 +1,4 @@
-// Escuchar eventos de clic en enlaces con la clase "scroll-link"
+ // Escuchar eventos de clic en enlaces con la clase "scroll-link"
 document.querySelectorAll('.scroll-link').forEach(function (link) {
     link.addEventListener('click', function (event) {
         event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
