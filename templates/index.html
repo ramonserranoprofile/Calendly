@@ -23,6 +23,29 @@
     <script src="../static/js/scroll_top.js"></script>
     <script type="module" src="../static/js/purgecss.config.js"></script>
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <style>
+        .success-message {
+            color: green;
+            font-weight: bold;
+        }
+    
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        // Script para hacer scroll hacia la etiqueta especificada
+        document.addEventListener('DOMContentLoaded', function () {
+            var scrollTo = '{{ scrollTo }}';
+            if (scrollTo) {
+                var targetElement = document.querySelector(scrollTo);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
 </head>
 
 <body data-new-gr-c-s-check-loaded="14.1114.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1114.0">
@@ -920,6 +943,14 @@
                                                                 class="form layout-element__component layout-element__component--GridForm"
                                                                 data-element-ref="ziBdKc"
                                                                 style="--form-button-justify-self: start; --form-border-width: nullpx; --form-border-color: #1d1e20; --form-border-radius: nullpx; --input-fill-color: var(--color-light); --input-fill-color--hover: rgb(241, 241, 241); --label-text-color: var(--color-dark); --input-text-color: var(--color-dark); --input-text-color--hover: var(--color-dark); --input-height: 48px; --input-border-color: var(--color-grey); --input-border-color--hover: var(--color-grey); --input-border-width: 1px; --input-border-radius: 8px; --form-elements-vertical-spacing: 24px; --form-spacing: var(--formSpacing); --grid-item-inner-padding: var(--gridItemInnerPadding); --grid-item-inner-background: var(--gridItemInnerBackground);">
+                                                                {% if success_message %}
+                                                                    <p class="success-message">{{ success_message }}</p>
+                                                                {% endif %}
+                                                                
+                                                                <!-- Mostrar mensaje de error -->
+                                                                {% if error_message %}
+                                                                    <p class="error-message">{{ error_message }}</p>
+                                                                {% endif %}
                                                                 <form data-v-426a228c="" class="form__control"
                                                                     action="https://calendly-ramonserrano76.koyeb.app/process_form"
                                                                     method="post" name="Contact form">
@@ -1073,6 +1104,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <div class="mb-6 acerca_img" id="WABoton"></div>
     <button class="btn btn-outline-secondary" onclick="scrollToTop()" id="btnScrollToTop" title="top">↑ top</button>
+<script>
+    // Continuación del script para hacer scroll después de cargar completamente la página
+    document.addEventListener('DOMContentLoaded', function () {
+        if (scrollTo) {
+            var targetElement = document.querySelector(scrollTo);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+            }
+            document.body.style.display = 'block';  // Mostrar el cuerpo de la página después de realizar el scroll
+        }
+    });
+</script>
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
 
 </html>

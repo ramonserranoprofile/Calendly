@@ -123,15 +123,17 @@ def procesar_formulario():
             server.sendmail(smtp_user, smtp_user, msg.as_string())
             server.quit()
             logger.info('Mail sent successfully')
+            return render_template('index.html', success_message='Mail sent successfully.', error_message=None, scrollTo='#contact-title')
         except Exception as e:
             logger.error(f'Error to send email: {str(e)}')
 
         logger.info('Formulario enviado correctamente')
-        return jsonify({'success': 'Formulario enviado correctamente.'}), 200
+        # return jsonify({'success': 'Formulario enviado correctamente.'}), 200
+        return render_template('index.html', success_message='Formulario enviado correctamente.', error_message=None, scrollTo='#contact-title')
     else:
         logger.warning('Error: Por favor, verifica que eres humano.')
-        return jsonify({'error': 'Error: Por favor, verifica que eres humano.'}), 400
-
+        # return jsonify({'error': 'Error: Por favor, verifica que eres humano.'}), 400
+        return render_template('index.html', success_message=None, error_message='Error: Por favor, verifica que eres humano.', scrollTo='#contact-title')
 
 if __name__ == '__main__':
     app.run()
