@@ -3533,6 +3533,7 @@ iframe {
 
 .block-background {
     position: absolute;
+        /* Cambiado a "fixed" para cubrir toda la pantalla */
     top: 0;
     right: 0;
     bottom: 0;
@@ -3540,7 +3541,7 @@ iframe {
     z-index: 13;
     overflow: hidden;
     background-color: var(--background-color);
-    transition: background-color .3s ease-in-out, height 1ms linear 999s
+    transition: background-color .3s ease-in-out, height 1ms linear 999s;
 }
 
 .block-background--fixed {
@@ -4069,7 +4070,7 @@ iframe {
     }
 }
 
-@media screen and (min-width:415px) and (max-width:991px) {
+@media screen and (min-width:375px) and (max-width:991px) {
     .block-layout--layout {
         grid-template-rows: var(--t-grid-template-rows);
         min-height: var(--t-block-min-height);
@@ -6025,11 +6026,15 @@ iframe {
     }
 }
 
-@media screen and (max-width:414px) {
+@media screen and (max-width:375px) {
     .image[data-v-877eb5c1] {
         width: var(--2b4cce78);
         max-width: 100%;
         height: var(--46d4479e)
+    }
+         /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
     }
 }
 
@@ -7594,7 +7599,7 @@ iframe {
     }
 }
 
-@media screen and (min-width:414px) and (max-width:991px) {
+@media screen and (min-width:375px) and (max-width:991px) {
     .grid-shape {
         height: var(--t-shape-height, 100%)
     }
@@ -7635,12 +7640,16 @@ iframe {
     white-space: nowrap
 }
 
-@media screen and (max-width:413px) {
+@media screen and (max-width:375px) {
 
     .layout-element__component--GridButton.layout-element__component,
     .layout-element__component--GridEcommerceButton.layout-element__component,
     .layout-element__component--GridEcommerceButton.layout-element__component .grid-button {
         white-space: normal
+    }
+         /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
     }
 }
 
@@ -7688,7 +7697,7 @@ iframe {
     }
 }
 
-@media screen and (max-width:414px) {
+@media screen and (max-width:375px) {
 
     .layout-element__component--GridButton:not(.s),
     .layout-element__component--GridEcommerceButton:not(.s) {
@@ -7696,6 +7705,10 @@ iframe {
         min-height: var(--m-height);
         padding-right: 14px;
         padding-left: 14px
+    }
+    /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
     }
 }
 
@@ -10368,13 +10381,29 @@ html#ecwid_html.ec-has-filters-popup body#ecwid_body {
 }
 
 .block__background--fixed-mobile-view-with-collapsed-sidebar[data-v-b1d914d3] .block-background__image {
-    width: 414px;
-    margin-left: calc((100% - 358px)/2)
+    width: 100%;
+        /* Cambiado a 100% para cubrir toda la pantalla */
+        max-width: 375px;
+        /* Cambiado a max-width para limitar el ancho máximo */
+        /* Cambiado a 100% para cubrir toda la pantalla */
+    /* margin-left: calc((100% - 375px)/2) */
+    
+        /* Eliminado el margen izquierdo */
+    
+        /* Eliminado el margen derecho */
+    
 }
 
 .block__background--fixed-mobile-view-with-expanded-sidebar[data-v-b1d914d3] .block-background__image {
-    width: 414px;
-    margin-left: calc((100% - 174px)/2)
+    width: 100%;
+        /* Cambiado a 100% para cubrir toda la pantalla */
+        max-width: 375px;
+        /* Cambiado a max-width para limitar el ancho máximo */
+        /* Cambiado a 100% para cubrir toda la pantalla */
+    /* margin-left: calc((100% - 375px)/2) */
+        /* Eliminado el margen izquierdo */
+    
+        /* Eliminado el margen derecho */
 }
 
 [data-v-1109eb83]:root {
@@ -13235,6 +13264,10 @@ html#ecwid_html.ec-has-filters-popup body#ecwid_body {
         width: 100%;
         object-fit: contain
     }
+         /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
+    }
 }
 
 [data-v-b487c647]:root {
@@ -13281,6 +13314,10 @@ html#ecwid_html.ec-has-filters-popup body#ecwid_body {
     .assets-grid__assets-row[data-v-b487c647] {
         justify-content: center;
         gap: 0
+    }
+         /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
     }
 }
 
@@ -21639,6 +21676,10 @@ html#ecwid_html.ec-has-filters-popup body#ecwid_body {
     .sidebar__category[data-v-3397e350] {
         overflow-x: hidden;
         overflow-y: auto
+    }
+         /* Ajusta el ancho de los contenedores de fondo de color */
+    .block-background {
+        max-width: 100%;
     }
 }
 
