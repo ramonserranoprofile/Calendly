@@ -36951,7 +36951,7 @@ rgba-string-color-picker[data-v-1221a769]::part(alpha-pointer):after {
 }
 /* Estilos para tamaños de pantalla pequeños (por ejemplo, dispositivos móviles) */
 /* Estilos para pantallas pequeñas */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 480px) {
 
     /* Ajustar estilos para tamaños pequeños */
     .social-icons__container {
@@ -37275,7 +37275,7 @@ rgba-string-color-picker[data-v-1221a769]::part(alpha-pointer):after {
     }
                                 */
 
-                                
+
     /* Estilos para la parte 1 */
 
 
@@ -37400,5 +37400,4 @@ rgba-string-color-picker[data-v-1221a769]::part(alpha-pointer):after {
         margin-top: 0px;
         /* Ajusta el valor según tus necesidades */
     }
-
 }
