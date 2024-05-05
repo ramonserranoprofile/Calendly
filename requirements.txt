@@ -14,3 +14,4 @@ Werkzeug==2.3.7
 python-dotenv==1.0.0
 requests==2.31.0
 hcaptcha==0.2.1
+aiohttp>=3.9.4 # not directly required, pinned by Snyk to avoid a vulnerability
