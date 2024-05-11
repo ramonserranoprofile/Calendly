@@ -136,4 +136,4 @@ def procesar_formulario():
         return render_template('index.html', success_message=None, error_message='Error: Por favor, verifica que eres humano.', scrollTo='#contact-title')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
