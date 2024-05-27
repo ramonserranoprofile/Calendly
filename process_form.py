@@ -9,11 +9,11 @@ import logging
 app = Flask(__name__)
 
 
-@app.before_request
-def redirect_noncanonical():
-    canonical_url = "www.ramonserranoprofile.com"
-    if request.url.startswith("www.ramonserranoprofile.tech") or request.url.startswith("https://www.ramonserranoprofile.tech") or request.url.startswith("ramonserranoprofile.tech"):
-        return redirect(canonical_url + request.path, code=301)
+# @app.before_request
+# def redirect_noncanonical():
+#     canonical_url = "www.ramonserranoprofile.com"
+#     if request.url.startswith("www.ramonserranoprofile.tech") or request.url.startswith("https://www.ramonserranoprofile.tech") or request.url.startswith("ramonserranoprofile.tech"):
+#         return redirect(canonical_url + request.path, code=301)
 # Configurar el sistema de logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
