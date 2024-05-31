@@ -46,6 +46,30 @@
             color: red;
             font-weight: bold;
         }
+         @media (max-width: 576px) {
+            .block-header__content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .block-header__content img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .ai-builder-editor__content {
+                padding: 10px;
+            }
+
+            .preview__content {
+                padding: 10px;
+            }
+
+            header.block-header {
+                padding: 10px;
+            }
+        }
     </style>
     <script>
         // Script para hacer scroll hacia la etiqueta especificada
