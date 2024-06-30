@@ -22,7 +22,8 @@ def verificar_hcaptcha(response):
 
 @app.route('/')
 def index():
-    return render_template('index.html', success_message=None)
+    return render_template('index.html') 
+    # , success_message=None)
 
 
 @app.route('/process_form', methods=['POST'])
