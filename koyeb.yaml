@@ -1,0 +1,6 @@
+build:
+  - name: Build command
+    run: |
+      npm install
+      pip install -r requirements.txt
+    stack: python-3.10/node-18
