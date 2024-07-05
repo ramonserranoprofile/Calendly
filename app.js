@@ -35,8 +35,8 @@ export const loggerWinston = winston.createLogger({
     format: winston.format.json(),
     defaultMeta: { service: 'user-service' },
     transports: [
-        new winston.transports.File({ filename: 'app/logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'app/logs/combined.log' }),
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'logs/combined.log' }),
     ],
 });
 
@@ -46,7 +46,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Configuración de Morgan para registro de solicitudes
-app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'app/logs/traccess.log'), { flags: 'a' }) }));
+app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
 app.use(logger('dev'));
 const SESSIONS_PATH = path.resolve(__dirname, '../');
 console.log('SESSIONS_PATH:', `${ SESSIONS_PATH }\\.wwebjs_auth`);
