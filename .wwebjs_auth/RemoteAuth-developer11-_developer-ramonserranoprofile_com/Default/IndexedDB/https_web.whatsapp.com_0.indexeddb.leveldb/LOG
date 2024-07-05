@@ -1,0 +1,15 @@
+2024/07/04-21:37:22.282 4e38 Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-developer11-_developer-ramonserranoprofile_com\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/07/04-21:37:22.282 4e38 Recovering log #110
+2024/07/04-21:37:22.306 4e38 Reusing old log D:\Calendly\.wwebjs_auth\RemoteAuth-developer11-_developer-ramonserranoprofile_com\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000110.log 
+2024/07/04-21:37:23.459 4e38 Level-0 table #117: started
+2024/07/04-21:37:23.464 4e38 Level-0 table #117: 109238 bytes OK
+2024/07/04-21:37:23.465 4e38 Delete type=0 #110
+2024/07/04-21:37:23.466 4e38 Manual compaction at level-0 from '\x00,\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00-\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/07/04-21:37:25.845 4ae4 Compacting 1@1 + 2@2 files
+2024/07/04-21:37:25.923 4ae4 Generated table #118@1: 30271 keys, 2188031 bytes
+2024/07/04-21:37:26.009 4ae4 Generated table #119@1: 41616 keys, 1722359 bytes
+2024/07/04-21:37:26.009 4ae4 Compacted 1@1 + 2@2 files => 3910390 bytes
+2024/07/04-21:37:26.010 4ae4 compacted to: files[ 0 0 2 0 0 0 0 ]
+2024/07/04-21:37:26.010 4ae4 Delete type=2 #113
+2024/07/04-21:37:26.010 4ae4 Delete type=2 #114
+2024/07/04-21:37:26.010 4ae4 Delete type=2 #117
