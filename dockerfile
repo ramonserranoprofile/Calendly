@@ -4,17 +4,13 @@ WORKDIR /app
 
 # Instala las dependencias de Express
 COPY package.json package-lock.json ./
-RUN rm -rf node_modules
 RUN npm install
 
 # Copia todos los archivos de las aplicaciones Flask y Express
 COPY . ./
 
-# Configura Express (ajusta según tu script de inicio)
-CMD ["node", "index.js"]
-
 # Segunda etapa de construcción para Flask
-FROM python:3.9-slim AS flask
+FROM python:3.10-slim AS flask
 WORKDIR /app
 
 # Instala las dependencias de Python y venv
@@ -25,7 +21,6 @@ COPY requirements.txt ./
 RUN python3 -m venv venv
 RUN venv/bin/pip install -r requirements.txt
 
-
 # Copia todos los archivos de la aplicación Flask
 COPY . ./
 
@@ -34,12 +29,19 @@ ENV FLASK_APP=process_form.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=5000
 
-# Comando para iniciar la aplicación Flask
-CMD ["flask", "run"]
-
-# Etapa de producción: sirve las aplicaciones con NGINX como proxy reverso
+# Configura NGINX
 FROM nginx:latest
+WORKDIR /app
+COPY --from=build /app ./
+COPY --from=flask /app ./
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app /usr/share/nginx/html/
-EXPOSE 8000
-CMD ["nginx", "-g", "daemon off;"]
+
+# Exponer puertos para Flask y Express
+EXPOSE 5000 4000 80
+
+# Copia el script de inicio
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+# Comando para iniciar NGINX, Flask y Express
+CMD ["/start.sh"]
