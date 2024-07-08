@@ -32,7 +32,7 @@
     "postcss-purgecss": "^5.0.0",
     "postcss-safe-parser": "^7.0.0",
     "punycode": "^2.3.1",
-    "puppeteer": "^22.11.0",
+    "puppeteer": "^22.11.1",
     "puppeteer-core": "^22.11.2",
     "q": "^1.5.1",
     "qrcode": "^1.5.3",
