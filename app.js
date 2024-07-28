@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -41,7 +42,10 @@ export const loggerWinston = winston.createLogger({
 });
 
 // Establecer la ubicación de las vistas
-export const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+// Obtén el directorio actual
+const __filename = fileURLToPath(import.meta.url);
+export const __dirname = path.dirname(__filename);
+// export const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', ejs);
 
