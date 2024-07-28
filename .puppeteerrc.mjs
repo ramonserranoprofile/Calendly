@@ -1,15 +1,17 @@
 import path from 'path';
+import { join } from 'path';
 import { mkdirSync, existsSync } from 'fs';
-
+import { fileURLToPath } from 'url';
 /**
  * @type {import("puppeteer").Configuration}
  */
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
-console.log('DIRNAME:', __dirname);
+// Obtén el directorio actual
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define la ruta de la caché
-const cacheDirectory = path.join(/app/, '.cache', 'puppeteer');
+const cacheDirectory = join(__dirname, '/app/.cache', 'puppeteer');
 
 // Crea la carpeta de caché si no existe
 if (!existsSync(cacheDirectory)) {
