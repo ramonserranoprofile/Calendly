@@ -23,6 +23,7 @@ export const clients = [];
 
 export async function startingPuppeteer() {
     try {
+        await import('puppeteer/install.js');  // This will ensure Chrome is installed
         const browser = await puppeteer.launch({
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
