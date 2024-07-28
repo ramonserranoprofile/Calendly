@@ -23,11 +23,9 @@ import {
 export const clients = [];
 
 export async function startingPuppeteer() {
-    try {
-        const executablePath = join(__dirname, 'chromium', 'chrome-linux', 'chrome'); // Ajusta la ruta al ejecutable de Chromium
-
+    try {        
         const browser = await puppeteer.launch({
-            executablePath,
+            executablePath: executablePath(),
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
