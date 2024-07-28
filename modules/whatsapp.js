@@ -29,6 +29,8 @@ export async function startingPuppeteer() {
         });
         console.log('Puppeteer started successfully.');
         // Tu código adicional...
+        browser.close
+        
     } catch (error) {
         console.error('Error starting Puppeteer:', error);
     }
