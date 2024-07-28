@@ -24,19 +24,19 @@ export const clients = [];
 
 export async function startingPuppeteer() {
     try {
-        
+        const executablePath = join(__dirname, 'chromium', 'chrome-linux', 'chrome'); // Ajusta la ruta al ejecutable de Chromium
+
         const browser = await puppeteer.launch({
-            headless: 'new',
-            executablePath: executablePath(), 
+            executablePath,
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            
         });
-        console.log('Puppeteer started successfully.');
-        // Tu código adicional...
-        browser.close
-        
+
+        console.log('Puppeteer iniciado correctamente');
+        // tu código aquí
+        await browser.close();
     } catch (error) {
-        console.error('Error starting Puppeteer:', error);
+        console.error('Error iniciando Puppeteer:', error);
     }
 }
 
