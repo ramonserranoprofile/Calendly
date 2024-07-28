@@ -1,19 +1,4 @@
-2024/07/28-04:37:29.525 60f0 Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/07/28-04:37:29.525 60f0 Recovering log #192
-2024/07/28-04:37:29.577 60f0 Reusing old log D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000192.log 
-2024/07/28-04:37:31.071 7a14 Level-0 table #200: started
-2024/07/28-04:37:31.079 7a14 Level-0 table #200: 220696 bytes OK
-2024/07/28-04:37:31.080 7a14 Delete type=0 #192
-2024/07/28-04:37:31.080 7a14 Manual compaction at level-0 from '\x00(\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00)\x00\x00\x00' @ 0 : 0; will stop at (end)
-2024/07/28-04:37:43.482 6948 Compacting 1@1 + 4@2 files
-2024/07/28-04:37:43.605 6948 Generated table #201@1: 56859 keys, 2220296 bytes
-2024/07/28-04:37:43.674 6948 Generated table #202@1: 16418 keys, 2191919 bytes
-2024/07/28-04:37:43.761 6948 Generated table #203@1: 43561 keys, 2173977 bytes
-2024/07/28-04:37:43.778 6948 Generated table #204@1: 8679 keys, 190482 bytes
-2024/07/28-04:37:43.778 6948 Compacted 1@1 + 4@2 files => 6776674 bytes
-2024/07/28-04:37:43.779 6948 compacted to: files[ 0 0 4 0 0 0 0 ]
-2024/07/28-04:37:43.779 6948 Delete type=2 #194
-2024/07/28-04:37:43.779 6948 Delete type=2 #195
-2024/07/28-04:37:43.779 6948 Delete type=2 #196
-2024/07/28-04:37:43.779 6948 Delete type=2 #197
-2024/07/28-04:37:43.779 6948 Delete type=2 #200
+2024/07/28-05:17:16.519 6d5c Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/07/28-05:17:16.520 6d5c Recovering log #192
+2024/07/28-05:17:16.567 6d5c Reusing old log D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000192.log 
+2024/07/28-05:17:19.232 370 Manual compaction at level-0 from '\x00(\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00)\x00\x00\x00' @ 0 : 0; will stop at (end)
