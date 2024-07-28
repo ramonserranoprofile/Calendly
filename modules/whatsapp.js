@@ -21,6 +21,20 @@ import {
 import puppeteerConfig from '../.puppeteerrc.mjs';
 export const clients = [];
 
+export async function startPuppeteer() {
+    try {
+        const browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+        console.log('Puppeteer started successfully.');
+        // Tu código adicional...
+    } catch (error) {
+        console.error('Error starting Puppeteer:', error);
+    }
+}
+
+startPuppeteer();
 
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
