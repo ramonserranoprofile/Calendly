@@ -4,7 +4,7 @@ import { get } from 'https';
 import { join } from 'path';
 import { execSync } from 'child_process';
 import extract from 'extract-zip';
-
+import { __dirname } from './app.js';
 const downloadChromium = async () => {
     const url = 'https://github.com/chromium/chromium/archive/refs/tags/1269260.zip'; // URL de Chromium precompilado
     const zipPath = join(__dirname, 'chromium.zip');
