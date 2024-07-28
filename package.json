@@ -1,7 +1,6 @@
 {
   "type": "module",
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^5.0.0",
     "nodemon": "^3.1.4"
   },
   "scripts": {
@@ -10,6 +9,7 @@
     "build": "node ./static/js/purgecss.config.js"
   },
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
@@ -25,16 +25,15 @@
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.13",
-    "npm": "^10.8.1",
-    "ometajs": "^2.1.2",
+    "npm": "*",
+    "ometajs": "^2.0.11",
     "openai": "^4.49.1",
     "pm2": "^5.4.1",
-    "postcss-purgecss": "^5.0.0",
     "postcss-safe-parser": "^7.0.0",
     "punycode": "^2.3.1",
-    "puppeteer": "^22.11.0",
-    "puppeteer-core": "^22.11.2",
-    "q": "^1.5.1",
+    "puppeteer": "^22.13.1",
+    "puppeteer-core": "^22.13.1",
+    "puppeteer-extra": "^3.3.6",
     "qrcode": "^1.5.3",
     "qrcode-terminal": "^0.12.0",
     "redis": "^4.6.14",
@@ -44,5 +43,5 @@
     "winston": "^3.13.0",
     "ws": "^8.17.0",
     "wwebjs-mongo": "^1.1.0"
-  }  
+  }
 }

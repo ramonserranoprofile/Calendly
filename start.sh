@@ -1,11 +1,19 @@
 #!/bin/sh
+set -e
+# Cambiar el propietario de los archivos a nginx
+#chown -R nginx:nginx /*
 
-# Inicia el servidor Flask en segundo plano
-. /app/venv/bin/activate
-flask run &
+#bash -c '/root/Documents/chrome.sh'
 
-# Inicia el servidor Express en segundo plano
-node /app/index.js &
+# Activa el entorno virtual de Flask
+. /venv/bin/activate
 
-# Inicia NGINX
-nginx -g "daemon off;"
+# Activa el entorno virtual de Express
+node index.js &
+
+gunicorn --bind 127.0.0.1:5000 process_form:app &
+#flask --app=/app/process_form.py run &
+
+# Activa el entorno virtual de NGINX
+nginx -g 'daemon off;'
+# Activa el entorno virtual de NGINX

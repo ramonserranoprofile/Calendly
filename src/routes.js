@@ -107,7 +107,7 @@ router.get('/start/:sessionName/:email', (req, res) => {
 });
 
 // Ruta para iniciar una nueva sesión de WhatsApp
-const postStart = router.post('/start/:sessionName/:email', (req, res) => {
+router.post('/start/:sessionName/:email', (req, res) => {
     const sessionName = req.params.sessionName;
     const email = req.params.email;
 

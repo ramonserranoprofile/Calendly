@@ -12,8 +12,8 @@ import OpenAI from 'openai';
 import { loadExistingClients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';
-
 dotenv();
+
 const app = express();
 
 app.use(express.json());
@@ -49,7 +49,7 @@ app.set('view engine', 'ejs');
 app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
 app.use(logger('dev'));
 const SESSIONS_PATH = path.resolve(__dirname, '../');
-console.log('SESSIONS_PATH:', `${ SESSIONS_PATH }\\.wwebjs_auth`);
+
 // Cargar routers
 app.use('/api', router);
 

@@ -5,10 +5,12 @@ import { config as dotenv } from 'dotenv';
 dotenv();
 import fs from 'fs';
 import path from 'path';
+import puppeteer from 'puppeteer';
+//import puppeteer from 'puppeteer-core';
 import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
 import { MongoStore } from 'wwebjs-mongo';
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 import {
     sendQRbyEmail,
     sendReplyWithStar,
@@ -16,17 +18,52 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-
+import puppeteerConfig from '../.puppeteerrc.mjs';
 export const clients = [];
+
+
+// Función para iniciar Puppeteer con los argumentos necesarios
+// Merge the Puppeteer configuration with the default options
+const mergedConfig = Object.assign({}, puppeteerConfig, {
+    // Add other default options here if needed
+});
+
+// Launch Puppeteer with the merged configuration
+const launchOptions = {
+    headless: "new", // Add other launch options here if needed
+    //...mergedConfig, // Spread the merged configuration here
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
+        //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
+    //timeout: 720000, // Set timeout to 120 seconds or adjust as needed
+    //defaultViewport: null, // Add this line to disable viewport
+    // Add the following line to increase protocolTimeout
+    //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
+};
+async function startPuppeteer() {
+    const browser = await puppeteer.launch(launchOptions);
+        // await puppeteer.launch({
+        //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
+        //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
+        //     //'/usr/bin/chromium',
+        //     '/usr/bin/google-chrome',
+        //     headless: 'new',
+        //     //args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        // });
+
+    return browser;
+};
+
+// Llama a la función para iniciar Puppeteer
 try {
     await mongoose.connect(process.env.MONGODB_URI);
     if (mongoose.connection.readyState === 1) {
         console.log('Conectado exitosamente a MongoDB');
     }
-
 } catch (err) {
     console.error('Error al conectar a MongoDB:', err);
 }
+
 async function initializeClient(user, email) {
     let cleanEmail;
     try {
@@ -39,24 +76,33 @@ async function initializeClient(user, email) {
     const clientId = `${user}-_${cleanEmail}`;
     const store = new MongoStore({ mongoose: mongoose });
     const SESSIONS_PATH = path.resolve(__dirname, '../');
-    console.log('SESSIONS_PATH:', SESSIONS_PATH);
+    let puppeteerOptions
+    startPuppeteer().then(browser => {
+        // Puedes usar 'browser' aquí para navegar por la web u otras tareas
+        const puppeteerOptions = {
+            browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
+            // Add other Puppeteer options here if needed            
+        }
+        return puppeteerOptions;
+    });
+    
     const client = new Client({
         authStrategy: new RemoteAuth({
+            clientId: clientId, 
+            //dataPath: './.wwebjs_auth/',
             store: store,
-            dataPath: `${ SESSIONS_PATH }\\.wwebjs_auth`,
-            webVersionCache: `${ SESSIONS_PATH }\\.wwebjs_cache`,
             backupSyncIntervalMs: 60000,
-            clientId: clientId,
-            puppeteer: {
-                headless: true,
-                args: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                ],
-            },
+            puppeteer: puppeteerOptions,
+            // puppeteer: {
+            //     headless: true,
+            //     args: [
+            //         '--no-sandbox',
+            //         '--disable-setuid-sandbox',
+            //     ],
+            // },
             dumpio: true,
         })
-    });
+    })
 
     clients[sessionName] = client;
 
@@ -136,7 +182,7 @@ async function initializeClient(user, email) {
         if (msg.body == '!ping') {
             console.log('Datos Cliente:', `{ User: ${userId}, Name: ${name_to} }`);
             await sendReplyWithStar(msg, `pong para ${userId}, ${name_to}`);
-            await msg.react('👍');
+            msg.react('👍');
         } else if (msg.body == '!help') {
             msg.reply('Los comandos disponibles son:\n!ping - Responde pong\n!info - Información del bot\n!chat - !chat (para consultar a la IA)');
             msg.react('ℹ️');
@@ -151,17 +197,17 @@ async function initializeClient(user, email) {
             const query = msg.body.replace('!chat ', '');
             const response = await getAIResponse(query, userId);
             client.sendSeen(msg.from);
-            await msg.reply('Por favor, escriba su consulta a la IA');
+            msg.reply('Por favor, escriba su consulta a la IA');
             msg._data.star = true;
             msg._data.isStarred = true;
             if (msg.body && msg)
-                await msg.reply(response);
+                msg.reply(response);
             msg.react('💬');
         } else {
             if (!(msg.hasMedia) && (msg.type === 'chat') && (msg._data.subtype !== 'url') && (msg._data.from !== 'status@broadcast')) {
                 console.log('Received text message:', msg);
                 client.sendSeen(msg.from);
-                // msg.react('👍');
+                msg.react('👍');
                 const buttons = {
                     "messaging_product": "whatsapp",
                     "recipient_type": "individual",
@@ -199,7 +245,7 @@ async function initializeClient(user, email) {
                         }
                     }
                 };
-                //msg.reply(`${button}`);
+                //msg.reply(`${buttons}`);
 
                 client.sendMessage(msg.from, buttons);
 
@@ -245,7 +291,9 @@ async function initializeClient(user, email) {
 
     client.initialize();
     return client;
+
 };
+
 
 export async function loadExistingClients(client) {
     const authPath = path.join(__dirname, '.wwebjs_auth');

@@ -1,0 +1,26 @@
+services:  
+  desktop:    
+    image: ramonserrano76/calendly:v11.0
+    cap_add:
+      - DAC_OVERRIDE
+      - SYS_CHROOT
+      - SYS_BOOT
+      - SETUID
+      - LINUX_IMMUTABLE
+      - CAP_DAC_OVERRIDE
+    #user: root
+    ports:
+      - "8000:8080"
+      - "80:80"    
+    ulimits:
+      nofile:
+        soft: 10240
+        hard: 10240
+    #volumes:
+      #- .:/app
+      #- .:/.wwebjs_cache
+      #- ./node_modules:/node_modules
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+      - no-new-privileges:false    
