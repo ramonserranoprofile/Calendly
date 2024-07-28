@@ -45,9 +45,26 @@ export const __dirname = path.dirname(new URL(import.meta.url).pathname).substri
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Crear el directorio y archivo de log si no existen
+const logsDir = path.join(__dirname, 'logs');
+const logFile = path.join(logsDir, 'traccess.log');
+
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+}
+
+if (!fs.existsSync(logFile)) {
+    fs.writeFileSync(logFile, '');
+}
+
+// // Configuración de Morgan para registro de solicitudes
+// app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
+// app.use(logger('dev'));
+
 // Configuración de Morgan para registro de solicitudes
-app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
+app.use(morgan('combined', { stream: fs.createWriteStream(logFile, { flags: 'a' }) }));
 app.use(logger('dev'));
+
 const SESSIONS_PATH = path.resolve(__dirname, '../');
 
 // Cargar routers
