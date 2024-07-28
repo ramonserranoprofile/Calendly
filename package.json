@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./index.js",
     "dev": "nodemon index.js",
-    "build": "node ./static/js/purgecss.config.js"
+    "builder": "node ./static/js/purgecss.config.js"
   },
   "engines": {
     "node": "18.x"
