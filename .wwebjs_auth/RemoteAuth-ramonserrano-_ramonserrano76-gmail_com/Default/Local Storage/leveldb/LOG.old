@@ -1,2 +1,3 @@
-2024/07/28-12:44:14.792 5ca4 Creating DB D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb since it was missing.
-2024/07/28-12:44:14.798 5ca4 Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/MANIFEST-000001
+2024/07/28-14:53:45.298 7b60 Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/MANIFEST-000001
+2024/07/28-14:53:45.299 7b60 Recovering log #3
+2024/07/28-14:53:45.299 7b60 Reusing old log D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/000003.log 

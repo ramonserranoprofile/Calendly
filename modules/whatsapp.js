@@ -26,7 +26,7 @@ export async function startingPuppeteer() {
     try {        
         const browser = await puppeteer.launch({
             executablePath: executablePath(),
-            headless: true,
+            headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
 
@@ -48,28 +48,28 @@ startingPuppeteer();
 // });
 
 // Launch Puppeteer with the merged configuration
-const launchOptions = {
-    headless: "new", // Add other launch options here if needed
-    //...mergedConfig, // Spread the merged configuration here
-    executablePath: executablePath(),  
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
-        //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
-    //timeout: 720000, // Set timeout to 120 seconds or adjust as needed
-    //defaultViewport: null, // Add this line to disable viewport
-    // Add the following line to increase protocolTimeout
-    //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
-};
+// const launchOptions = {
+//     headless: "new", // Add other launch options here if needed
+//     //...mergedConfig, // Spread the merged configuration here
+//     executablePath: executablePath(),  
+//     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+//     //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
+//         //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
+//     //timeout: 720000, // Set timeout to 120 seconds or adjust as needed
+//     //defaultViewport: null, // Add this line to disable viewport
+//     // Add the following line to increase protocolTimeout
+//     //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
+// };
 async function startPuppeteer() {
-    const browser = await puppeteer.launch(launchOptions);
-        // await puppeteer.launch({
+    const browser = //await puppeteer.launch(launchOptions);
+        await puppeteer.launch({
         //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
         //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
         //     //'/usr/bin/chromium',
         //     '/usr/bin/google-chrome',
-        //     headless: 'new',
-        //     //args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        // });
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
 
     return browser;
 };
@@ -96,15 +96,15 @@ async function initializeClient(user, email) {
     const clientId = `${user}-_${cleanEmail}`;
     const store = new MongoStore({ mongoose: mongoose });
     const SESSIONS_PATH = path.resolve(__dirname, '../');
-    let puppeteerOptions
-    startPuppeteer().then(browser => {
-        // Puedes usar 'browser' aquí para navegar por la web u otras tareas
-        const puppeteerOptions = {
-            browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
-            // Add other Puppeteer options here if needed            
-        }
-        return puppeteerOptions;
-    });
+    // let puppeteerOptions
+    // startPuppeteer().then(browser => {
+    //     // Puedes usar 'browser' aquí para navegar por la web u otras tareas
+    //     const puppeteerOptions = {
+    //         browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
+    //         // Add other Puppeteer options here if needed            
+    //     }
+    //     return puppeteerOptions;
+    // });
     
     const client = new Client({
         authStrategy: new RemoteAuth({
@@ -112,14 +112,14 @@ async function initializeClient(user, email) {
             //dataPath: './.wwebjs_auth/',
             store: store,
             backupSyncIntervalMs: 60000,
-            puppeteer: puppeteerOptions,
-            // puppeteer: {
-            //     headless: true,
-            //     args: [
-            //         '--no-sandbox',
-            //         '--disable-setuid-sandbox',
-            //     ],
-            // },
+            //puppeteer: puppeteerOptions,
+            puppeteer: {
+                headless: 'new',
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                ],
+            },
             dumpio: true,
         })
     })
