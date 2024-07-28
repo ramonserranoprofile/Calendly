@@ -21,7 +21,7 @@ import {
 import puppeteerConfig from '../.puppeteerrc.mjs';
 export const clients = [];
 
-export async function startPuppeteer() {
+export async function startingPuppeteer() {
     try {
         const browser = await puppeteer.launch({
             headless: 'new',
@@ -34,7 +34,7 @@ export async function startPuppeteer() {
     }
 }
 
-startPuppeteer();
+startingPuppeteer();
 
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
