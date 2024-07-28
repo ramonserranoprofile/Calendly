@@ -4,10 +4,9 @@
     "nodemon": "^3.1.4"
   },
   "scripts": {
-    "prestart": "node ./downloadChromium.js",
     "start": "node ./index.js",
     "dev": "nodemon",
-    "postinstall": "npx puppeteer browsers install chrome",
+    "postinstall": "PUPPETEER_CACHE_DIR='./app/.cache/puppeteer' npx puppeteer browsers install chrome@126.0.6478.182",
     "builder": "node ./static/js/purgecss.config.js"
   },
   "engines": {
