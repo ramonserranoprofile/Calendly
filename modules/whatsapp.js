@@ -18,16 +18,16 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-import puppeteerConfig from '../.puppeteerrc.mjs';
+//import puppeteerConfig from '../.puppeteerrc.cjs';
 export const clients = [];
 
 export async function startingPuppeteer() {
     try {
-        await import('puppeteer/install.js');  // This will ensure Chrome is installed
+        
         const browser = await puppeteer.launch({
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            cacheDirectory: puppeteerConfig.cacheDirectory,
+            
         });
         console.log('Puppeteer started successfully.');
         // Tu código adicional...
@@ -42,9 +42,10 @@ startingPuppeteer();
 
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
-const mergedConfig = Object.assign({}, puppeteerConfig, {
-    // Add other default options here if needed
-});
+
+// const mergedConfig = Object.assign({}, puppeteerConfig, {
+//     // Add other default options here if needed
+// });
 
 // Launch Puppeteer with the merged configuration
 const launchOptions = {
