@@ -3,10 +3,12 @@
   "devDependencies": {
     "nodemon": "^3.1.4"
   },
-  "scripts": {    
+  "scripts": {   
+    "prestart": "npx puppeteer browsers install",
     "start": "node ./index.js",
     "dev": "nodemon",
-    "builder": "node ./static/js/purgecss.config.js"
+    "builder": "node ./static/js/purgecss.config.js",
+    "postinstall": "npx puppeteer browsers install"
   },
   "engines": {
     "node": "18.x"
