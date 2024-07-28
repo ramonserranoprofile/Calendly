@@ -25,7 +25,7 @@ export const clients = [];
 export async function startingPuppeteer() {
     try {        
         const browser = await puppeteer.launch({
-            executablePath: executablePath(),
+            executablePath: '/home/koyeb/.cache/puppeteer/chrome/linux-126.0.6478.182/chrome-linux64/chrome',
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
@@ -51,7 +51,7 @@ startingPuppeteer();
 const launchOptions = {
     headless: "new", // Add other launch options here if needed
     //...mergedConfig, // Spread the merged configuration here
-    executablePath: executablePath(), 
+    executablePath: '/home/koyeb/.cache/puppeteer/chrome/linux-126.0.6478.182/chrome-linux64/chrome',  
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
         //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
