@@ -67,6 +67,11 @@ app.use(logger('dev'));
 
 const SESSIONS_PATH = path.resolve(__dirname, '../');
 
+// Definir una ruta para la raíz
+app.get('/', (req, res) => {
+    res.send('Welcome to the home page!');
+});
+
 // Cargar routers
 app.use('/api', router);
 
