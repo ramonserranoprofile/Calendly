@@ -4,10 +4,10 @@ import initializeClient, { clients } from '../modules/whatsapp.js';
 
 const router = express.Router();
 
-// Página principal
-router.get('/', (req, res) => {
-    res.render('index', { title: 'Esto es Express' });
-});
+// // Página principal
+// router.get('/', (req, res) => {
+//     res.render('index', { title: 'Esto es Express' });
+// });
 
 // Integrar rutas crear chatBot con la app
 // Ruta para iniciar una nueva sesión de WhatsApp
