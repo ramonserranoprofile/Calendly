@@ -25,7 +25,8 @@ export async function startingPuppeteer() {
     try {
         const browser = await puppeteer.launch({
             headless: 'new',
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            cacheDirectory: puppeteerConfig.cacheDirectory,
         });
         console.log('Puppeteer started successfully.');
         // Tu código adicional...
