@@ -1,3 +1,6 @@
-2024/07/28-01:57:16.740 7b94 Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/MANIFEST-000001
-2024/07/28-01:57:16.741 7b94 Recovering log #4
-2024/07/28-01:57:16.742 7b94 Reusing old log D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/000004.log 
+2024/07/28-05:17:06.517 370 Reusing MANIFEST D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/MANIFEST-000001
+2024/07/28-05:17:06.517 370 Recovering log #4
+2024/07/28-05:17:06.518 370 Reusing old log D:\Calendly\.wwebjs_auth\RemoteAuth-ramonserrano-_ramonserrano76-gmail_com\Default\Local Storage\leveldb/000004.log 
+2024/07/28-05:19:10.633 1ff8 Level-0 table #8: started
+2024/07/28-05:19:10.644 1ff8 Level-0 table #8: 13953 bytes OK
+2024/07/28-05:19:10.649 1ff8 Delete type=0 #4

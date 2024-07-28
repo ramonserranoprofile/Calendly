@@ -43,7 +43,7 @@ export const loggerWinston = winston.createLogger({
 // Establecer la ubicación de las vistas
 export const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', ejs);
 
 // Crear el directorio y archivo de log si no existen
 const logsDir = path.join(__dirname, 'logs');
