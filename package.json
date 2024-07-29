@@ -4,11 +4,11 @@
     "nodemon": "^3.1.4"
   },
   "scripts": {   
-    "prestart": "npx puppeteer browsers install",
+    "prestart": "npx puppeteer browsers install chrome@latest",
     "start": "node ./index.js",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "npx puppeteer browsers install"
+    "postinstall": "npx puppeteer browsers install chrome@latest"
   },
   "engines": {
     "node": "18.x"
