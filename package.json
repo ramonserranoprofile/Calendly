@@ -11,7 +11,7 @@
     "postinstall": "npx puppeteer browsers install chrome@latest"
   },
   "engines": {
-    "node": "20.x"
+    "node": "20.16.x"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
