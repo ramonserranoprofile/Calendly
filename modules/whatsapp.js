@@ -19,7 +19,7 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-import puppeteerConfig from '../.puppeteerrc.cjs';
+//import cacheDirectory from '../.puppeteerrc.cjs';
 export const clients = [];
 
 export async function startingPuppeteer() {
@@ -43,9 +43,9 @@ export async function startingPuppeteer() {
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
 
-const mergedConfig = Object.assign({}, puppeteerConfig, {
-    // Add other default options here if needed
-});
+// const mergedConfig = Object.assign({}, cacheDirectory, {
+//     // Add other default options here if needed
+// });
 
 // Launch Puppeteer with the merged configuration
 // const launchOptions = {
@@ -115,8 +115,8 @@ async function initializeClient(user, email) {
             //puppeteer: puppeteerOptions,
             puppeteer: {
                 headless: 'new',
-                ...mergedConfig,
-                executablePath: executablePath(),
+                //...mergedConfig,
+                executablePath: puppeteer.executablePath(),
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
