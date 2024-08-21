@@ -38,7 +38,7 @@ export async function startingPuppeteer() {
     }
 }
 
-// startingPuppeteer();
+startingPuppeteer();
 
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
@@ -116,7 +116,7 @@ async function initializeClient(user, email) {
             puppeteer: {
                 headless: 'new',
                 //...mergedConfig,
-                //executablePath: puppeteer.executablePath(),
+                executablePath: puppeteer.executablePath(),
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
