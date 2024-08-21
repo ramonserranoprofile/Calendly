@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 import ejs from 'ejs';
 import { config as dotenv } from 'dotenv';
 import router from './src/routes.js';
-import OpenAI from 'openai';
+import { OpenAI } from 'openai';
 import { loadExistingClients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';

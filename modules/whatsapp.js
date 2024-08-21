@@ -116,7 +116,7 @@ async function initializeClient(user, email) {
             puppeteer: {
                 headless: 'new',
                 //...mergedConfig,
-                executablePath: puppeteer.executablePath(),
+                //executablePath: puppeteer.executablePath(),
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
@@ -229,7 +229,7 @@ async function initializeClient(user, email) {
             if (!(msg.hasMedia) && (msg.type === 'chat') && (msg._data.subtype !== 'url') && (msg._data.from !== 'status@broadcast')) {
                 console.log('Received text message:', msg);
                 client.sendSeen(msg.from);
-                msg.react('👍');
+                //msg.react('👍');
                 const buttons = {
                     "messaging_product": "whatsapp",
                     "recipient_type": "individual",

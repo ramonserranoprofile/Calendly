@@ -1,4 +1,7 @@
-node_modules
+node_modules/
 .env
-env
+env/
 .cache/
+.wwebjs_auth/
+.wwebjs_cache/
+.vscode/

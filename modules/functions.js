@@ -4,10 +4,10 @@ dotenv();
 import { openaiClient } from '../app.js';
 import fs from 'fs';
 import redis from '../Databases/redisDB.js';
-
-
-
-
+import { OpenAI } from 'openai';
+import axios from 'axios';
+import { text } from 'express';
+import https from 'https';
 // Configuración del transporte de nodemailer
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -85,24 +85,38 @@ export async function resetUserContext(userId) {
 }
 
 export async function transcribeAudio(filePath) {
-    try {
-        const transcriptionResponse = await openaiClient.audio.transcriptions.create({
-            file: fs.createReadStream(filePath),
-            model: 'whisper-1',
-            language: 'es',
-            temperature: 0.5
-        });
-        const transcription = transcriptionResponse.text.trim();
-        console.log('Transcription:', transcription);
-        return transcription;
-    } catch (error) {
-        console.error('Error al transcribir el archivo de audio:', error);
-        throw error;
-    } finally {
+    const maxRetries = 3;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
         try {
-            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-        } catch (err) {
-            console.error('Error al eliminar archivos temporales:', err);
+            const transcriptionResponse = await openaiClient.audio.transcriptions.create({
+                file: fs.createReadStream(filePath),
+                model: 'whisper-1',
+                language: 'es',
+                temperature: 0.5
+            });
+
+            const transcription = transcriptionResponse.text.trim();
+            console.log('Transcription:', transcription);
+            return transcription;
+        } catch (error) {
+            console.error(`Intento ${attempt + 1} - Error al transcribir el archivo de audio:`, error.message);
+            if (error.response) {
+                console.error('Detalles de la respuesta:', error.response.data);
+            }
+            attempt++;
+            if (attempt >= maxRetries) {
+                throw error; // Lanza el error después del último intento
+            }
+            // Espera antes de reintentar
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        } finally {
+            console.log('Eliminando archivo temporal:', filePath);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+                console.log('Archivo temporal eliminado:', filePath);
+            }
         }
     }
 }
@@ -130,13 +144,14 @@ export async function getAIResponse(message, userId) {
 
     const completion = await openaiClient.chat.completions.create({
         messages: messages,
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-2024-05-13',
         n: 1,
-        max_tokens: 2048,
+        max_tokens: 2000,
         stop: null,
         temperature: 0.7,
         user: userId,
         stream: false,
+
     });
 
     console.log('COMPLETION:', completion);
@@ -145,3 +160,26 @@ export async function getAIResponse(message, userId) {
     await saveUserContext(userId, [...userContext, { role: 'user', content: message }, { role: 'assistant', content: responseMessage }]);
     return responseMessage;
 }
+
+// export async function getAIResponse(message, userId) {
+//     try {
+//         const userContext = await getUserContext(userId);
+//         const response = await axios.post(
+//             'https://api-inference.huggingface.co/models/EleutherAI/gpt-neo-2.7B',
+//             { inputs: message },
+//             {
+//                 headers: {
+//                     'Authorization': `Bearer + ${process.env.HFACE_TOKEN}`,
+//                     'Content-Type': 'application/json'
+//                 }
+//             }
+//         );
+
+//         const responseMessage = response.data[0].generated_text;
+//         console.log('AI Response:', responseMessage);
+//         return responseMessage;
+//     } catch (error) {
+//         console.error('Error al obtener respuesta de la IA:', error);
+//         throw error;
+//     }
+// }

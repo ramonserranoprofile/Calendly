@@ -11,10 +11,11 @@
     "postinstall": "npx puppeteer browsers install chrome@latest"
   },
   "engines": {
-    "node": "20"
+    "node": "20.x"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
+    "axios": "^1.7.4",
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
@@ -31,7 +32,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.14",
     "ometajs": "^4.0.0",
-    "openai": "^4.53.2",
+    "openai": "^4.56.0",
     "pm2": "^5.4.2",
     "postcss-safe-parser": "^7.0.0",
     "punycode": "^2.3.1",
@@ -42,7 +43,7 @@
     "redis": "^4.7.0",
     "rimraf": "^6.0.1",
     "uuid": "^10.0.0",
-    "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#webpack-exodus",
+    "whatsapp-web.js": "^1.25.0",
     "winston": "^3.13.1",
     "ws": "^8.18.0",
     "wwebjs-mongo": "^1.1.0"
