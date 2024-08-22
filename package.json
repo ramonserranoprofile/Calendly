@@ -5,7 +5,7 @@
     "nodemon": "*"
   },
   "scripts": {
-    "prestart": "npx puppeteer browsers install chrome",
+    "prestart": "npx puppeteer browsers install chromium",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
