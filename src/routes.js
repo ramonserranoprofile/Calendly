@@ -234,16 +234,16 @@ router.post('/start/:sessionName/:email', (req, res) => {
     if (clients[clientKey]) {
         console.log(`La sesión ${sessionName} ya está en funcionamiento.`);
         clients[clientKey].initialize();
-        return res.status(400).send(`La sesión ${sessionName} ya está en funcionamiento.`);
+        return res.status(400).send(`La sesión ${escapeHtml(sessionName)} ya está en funcionamiento.`);
     }
 
     try {
         initializeClient(sessionName, email);
         console.log(`Sesión ${sessionName} iniciada con el correo ${email}`);
-        res.send(`Sesión ${sessionName} iniciada.`);
+        res.send(`Sesión ${escapeHtml(sessionName)} iniciada.`);
     } catch (error) {
         console.error(`Error al iniciar la sesión ${sessionName}:`, error);
-        res.status(500).send(`Error al iniciar la sesión ${sessionName}.`);
+        res.status(500).send(`Error al iniciar la sesión ${escapeHtml(sessionName)}.`);
     }
 });
 
@@ -260,13 +260,13 @@ router.post('/stop/:sessionName/:email', async (req, res) => {
             await client.logout(); // Destruir el cliente
             delete clients[clientKey]; // Eliminar la sesión del objeto clients
             console.log(`Sesión ${sessionName} detenida y eliminada.`);
-            res.send(`Sesión ${sessionName} detenida y eliminada.`);
+            res.send(`Sesión ${escapeHtml(sessionName)} detenida y eliminada.`);
         } catch (error) {
             console.error(`Error al detener la sesión ${sessionName}:`, error);
-            return res.status(500).send(`Error al detener la sesión ${sessionName}.`);
+            return res.status(500).send(`Error al detener la sesión ${escapeHtml(sessionName)}.`);
         }
     } else {
-        res.status(400).send(`La sesión ${sessionName} no está en funcionamiento.`);
+        res.status(400).send(`La sesión ${escapeHtml(sessionName)} no está en funcionamiento.`);
     }
 });
 
@@ -282,13 +282,13 @@ router.post('/pause/:sessionName/:email', async (req, res) => {
             const client = clients[clientKey];
             await client.destroy();  // Destruir el cliente
             console.log(`Sesión ${sessionName} pausada.`);
-            res.send(`Sesión ${sessionName} pausada.`);
+            res.send(`Sesión ${escapeHtml(sessionName)} pausada.`);
         } catch (error) {
             console.error(`Error al pausar la sesión ${sessionName}:`, error);
-            return res.status(500).send(`Error al pausar la sesión ${sessionName}.`);
+            return res.status(500).send(`Error al pausar la sesión ${escapeHtml(sessionName)}.`);
         }
     } else {
-        res.status(400).send(`La sesión ${sessionName} no está en funcionamiento.`);
+        res.status(400).send(`La sesión ${escapeHtml(sessionName)} no está en funcionamiento.`);
     }
 });
 
