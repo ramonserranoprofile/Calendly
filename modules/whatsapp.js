@@ -17,6 +17,7 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
+import { chromium } from 'playwright';
 //import cacheDirectory from '../.puppeteerrc.cjs';
 
 
@@ -37,7 +38,37 @@ export async function startingPuppeteer() {
     }
 }
 
-startingPuppeteer();
+//startingPuppeteer();
+
+// (async () => {
+//     const browser = await chromium.launch();
+//     const page = await browser.newPage();
+//     await page.goto('https://example.com');
+//     await page.screenshot({ path: 'example.png' });
+
+//     await browser.close();
+// })();
+
+async function takeScreenshot() {
+    try {
+        // Lanza una nueva instancia del navegador Chromium
+        const browser = await chromium.launch({
+            headless: true, // Set to true for headless mode
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
+        console.log('Playwright iniciado correctamente');        
+        // Cierra el navegador
+        await browser.close();
+        console.log('Playwright cerrado correctamente')
+        
+    } catch (error) {
+        console.error('Error opening Playwright:', error);
+    }
+}
+
+// Invoca la función con una URL y la ruta del archivo de la captura de pantalla
+takeScreenshot();
+
 
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
