@@ -38,10 +38,12 @@ app.use((req, res, next) => {
 });
 
 app.use(session({
-    secret: process.env.CSRF_SECRET, // Cambia esto por una clave secreta segura
+    secret: process.env.CSRF_SECRET, // Debes proporcionar un secreto seguro aquí
     resave: false,
     saveUninitialized: true,
+    cookie: { secure: true } // Asegúrate de que este valor esté en true si usas HTTPS
 }));
+
 const csrfProtection = csrf({ cookie: true });
 app.use(csrfProtection);
 
