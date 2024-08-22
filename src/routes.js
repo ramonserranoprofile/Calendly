@@ -370,7 +370,7 @@ router.post('/start/:sessionName/:email',
             console.log(`Sesión ${sessionName} iniciada con el correo ${email}`);
             res.send(`Sesión ${escapeHtml(sessionName)} iniciada.`);
         } catch (error) {
-            console.error(`Error al iniciar la sesión ${sessionName}:`, error);
+            console.error(`Error al iniciar la sesión ${escapeHtml(sessionName)}:`, error);
             res.status(500).send(`Error al iniciar la sesión ${escapeHtml(sessionName)}.`);
         }
     }
@@ -397,7 +397,7 @@ router.post('/stop/:sessionName/:email',
                 console.log(`Sesión ${sessionName} detenida y eliminada.`);
                 res.send(`Sesión ${escapeHtml(sessionName)} detenida y eliminada.`);
             } catch (error) {
-                console.error(`Error al detener la sesión ${sessionName}:`, error);
+                console.error(`Error al detener la sesión ${escapeHtml(sessionName)}:`, error);
                 res.status(500).send(`Error al detener la sesión ${escapeHtml(sessionName)}.`);
             }
         } else {
@@ -426,7 +426,7 @@ router.post('/pause/:sessionName/:email',
                 console.log(`Sesión ${sessionName} pausada.`);
                 res.send(`Sesión ${escapeHtml(sessionName)} pausada.`);
             } catch (error) {
-                console.error(`Error al pausar la sesión ${sessionName}:`, error);
+                console.error(`Error al pausar la sesión ${escapeHtml(sessionName)}:`, error);
                 res.status(500).send(`Error al pausar la sesión ${escapeHtml(sessionName)}.`);
             }
         } else {
