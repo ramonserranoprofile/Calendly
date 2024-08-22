@@ -4,11 +4,11 @@
     "nodemon": "*"
   },
   "scripts": {
-    "prestart": "set CACHE_DIRECTORY=./.cache/puppeteer && npx puppeteer browsers install chrome",
+    "prestart": "node ./postinstall.js",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "npx puppeteer browsers install chrome"
+    "postinstall": "node ./postinstall.js"
   },
   "engines": {
     "node": "20.x"
