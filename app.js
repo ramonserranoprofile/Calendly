@@ -24,10 +24,13 @@ const app = express();
 app.disable('etag');
 app.disable('x-powered-by-header');
 app.disable('x-powered-by');
+
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 100, // Limita cada IP a 100 solicitudes por "window" (aquí, por 15 minutos)
-    message: 'Demasiadas solicitudes desde esta IP, por favor intente nuevamente más tarde.',
+    max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
+    standardHeaders: true, // Envia la información de tasa en los headers 'RateLimit-*'
+    legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
+    message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
 });
 // Aplica el middleware a todas las rutas
 app.use(limiter);
@@ -107,7 +110,7 @@ const SESSIONS_PATH = path.resolve(__dirname, '../');
 
 
 // Cargar routers
-app.use('/api', router);
+app.use('/api', limiter, router);
 
 // Función para cargar los clientes existentes al iniciar la aplicación
 loadExistingClients();

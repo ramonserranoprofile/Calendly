@@ -213,7 +213,7 @@ function escapeHtml(unsafe) {
 }
 
 // Página principal
-router.get('/', (req, res) => {
+router.get('/', limiter, (req, res) => {
     res.render('index', { title: 'Esto es Express', csrfToken: res.locals.csrfToken });
 });
 
