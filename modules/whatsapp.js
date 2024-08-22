@@ -6,8 +6,6 @@ dotenv();
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
-import { executablePath } from 'puppeteer';
-//import puppeteer from 'puppeteer-core';
 import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
 import { MongoStore } from 'wwebjs-mongo';
@@ -19,18 +17,17 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-import chromium from 'chrome-aws-lambda'
 //import cacheDirectory from '../.puppeteerrc.cjs';
+
+
 export const clients = [];
 
 export async function startingPuppeteer() {
-    try {        
-        const browser = await puppeteer.launch({
-            executablePath: await chromium.executablePath, //executablePath(),
+    try {
+        const browser = await puppeteer.launch({            
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
-
         console.log('Puppeteer iniciado correctamente');
         // tu código aquí
         await browser.close();
@@ -65,10 +62,10 @@ startingPuppeteer();
 async function startPuppeteer() {
     const browser = //await puppeteer.launch(launchOptions);
         await puppeteer.launch({
-        //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
-        //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
-        //     //'/usr/bin/chromium',
-        //     '/usr/bin/google-chrome',
+            //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
+            //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
+            //     //'/usr/bin/chromium',
+            //     '/usr/bin/google-chrome',
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
@@ -107,10 +104,10 @@ async function initializeClient(user, email) {
     //     }
     //     return puppeteerOptions;
     // });
-    
+
     const client = new Client({
         authStrategy: new RemoteAuth({
-            clientId: clientId, 
+            clientId: clientId,
             //dataPath: './.wwebjs_auth/',
             store: store,
             backupSyncIntervalMs: 60000,
@@ -118,7 +115,7 @@ async function initializeClient(user, email) {
             puppeteer: {
                 headless: 'new',
                 //...mergedConfig,
-                executablePath: puppeteer.executablePath(),
+                //executablePath: puppeteer.executablePath(),
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
