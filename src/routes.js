@@ -305,11 +305,30 @@
 import express from 'express';
 import initializeClient, { clients } from '../modules/whatsapp.js';
 import { body, param, validationResult } from 'express-validator';
+import rateLimit from 'express-rate-limit';
 
 const router = express.Router();
 
+// Función para sanitizar la entrada y evitar XSS
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
+    standardHeaders: true, // Envia la información de tasa en los headers 'RateLimit-*'
+    legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
+    message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
+});
+
 // Página principal
-router.get('/', (req, res) => {
+router.get('/', limiter, (req, res) => {
     res.render('index', { title: 'Esto es Express', csrfToken: res.locals.csrfToken });
 });
 
@@ -343,16 +362,16 @@ router.post('/start/:sessionName/:email',
         if (clients[clientKey]) {
             console.log(`La sesión ${sessionName} ya está en funcionamiento.`);
             clients[clientKey].initialize();
-            return res.status(400).send(`La sesión ${sessionName} ya está en funcionamiento.`);
+            return res.status(400).send(`La sesión ${escapeHtml(sessionName)} ya está en funcionamiento.`);
         }
 
         try {
             initializeClient(sessionName, email);
             console.log(`Sesión ${sessionName} iniciada con el correo ${email}`);
-            res.send(`Sesión ${sessionName} iniciada.`);
+            res.send(`Sesión ${escapeHtml(sessionName)} iniciada.`);
         } catch (error) {
             console.error(`Error al iniciar la sesión ${sessionName}:`, error);
-            res.status(500).send(`Error al iniciar la sesión ${sessionName}.`);
+            res.status(500).send(`Error al iniciar la sesión ${escapeHtml(sessionName)}.`);
         }
     }
 );
@@ -376,13 +395,13 @@ router.post('/stop/:sessionName/:email',
                 await client.logout();
                 delete clients[clientKey];
                 console.log(`Sesión ${sessionName} detenida y eliminada.`);
-                res.send(`Sesión ${sessionName} detenida y eliminada.`);
+                res.send(`Sesión ${escapeHtml(sessionName)} detenida y eliminada.`);
             } catch (error) {
                 console.error(`Error al detener la sesión ${sessionName}:`, error);
-                res.status(500).send(`Error al detener la sesión ${sessionName}.`);
+                res.status(500).send(`Error al detener la sesión ${escapeHtml(sessionName)}.`);
             }
         } else {
-            res.status(400).send(`La sesión ${sessionName} no está en funcionamiento.`);
+            res.status(400).send(`La sesión ${escapeHtml(sessionName)} no está en funcionamiento.`);
         }
     }
 );
@@ -405,13 +424,13 @@ router.post('/pause/:sessionName/:email',
                 const client = clients[clientKey];
                 await client.destroy();
                 console.log(`Sesión ${sessionName} pausada.`);
-                res.send(`Sesión ${sessionName} pausada.`);
+                res.send(`Sesión ${escapeHtml(sessionName)} pausada.`);
             } catch (error) {
                 console.error(`Error al pausar la sesión ${sessionName}:`, error);
-                res.status(500).send(`Error al pausar la sesión ${sessionName}.`);
+                res.status(500).send(`Error al pausar la sesión ${escapeHtml(sessionName)}.`);
             }
         } else {
-            res.status(400).send(`La sesión ${sessionName} no está en funcionamiento.`);
+            res.status(400).send(`La sesión ${escapeHtml(sessionName)} no está en funcionamiento.`);
         }
     }
 );
