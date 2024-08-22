@@ -34,6 +34,7 @@ export async function startingPuppeteer() {
         console.log('Puppeteer iniciado correctamente');
         // tu código aquí
         await browser.close();
+        console.log('Puppeteer cerrado correctamente')
     } catch (error) {
         console.error('Error iniciando Puppeteer:', error);
     }
