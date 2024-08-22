@@ -12,8 +12,8 @@ import https from 'https';
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'ramonserrano76@gmail.com',
-        pass: 'pfsackibbvbyphjs'
+        user: process.env.GMAIL_USERNAME,
+        pass: process.env.GMAIL_PASSWORD,
     },
     tls: {
         rejectUnauthorized: false
@@ -24,7 +24,7 @@ const transporter = nodemailer.createTransport({
 export const sendQRbyEmail = (qr, email) => {
     console.log('Enviando QR por correo...');
     const mailOptions = {
-        from: 'ramonserrano76@gmail.com',
+        from: process.env.GMAIL_USERNAME,
         to: email,
         subject: 'WhatsApp QR Code',
         text: 'Scan this QR code to connect to WhatsApp',

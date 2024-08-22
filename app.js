@@ -13,10 +13,42 @@ import { OpenAI } from 'openai';
 import { loadExistingClients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';
+import rateLimit from 'express-rate-limit';
+import csrf from 'csurf';
+import session from 'express-session'; // Necesario para usar csrf con sesiones
 dotenv();
 
 const app = express();
 
+// Middlewares de seguridad
+app.disable('etag');
+app.disable('x-powered-by-header');
+app.disable('x-powered-by');
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // Limita cada IP a 100 solicitudes por "window" (aquí, por 15 minutos)
+    message: 'Demasiadas solicitudes desde esta IP, por favor intente nuevamente más tarde.',
+});
+// Aplica el middleware a todas las rutas
+app.use(limiter);
+
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self';");
+    next();
+});
+
+app.use(session({
+    secret: process.env.CSRF_SECRET, // Cambia esto por una clave secreta segura
+    resave: false,
+    saveUninitialized: true,
+}));
+const csrfProtection = csrf({ cookie: true });
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 app.use(express.json());
 
 // Configuración de middleware
