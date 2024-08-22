@@ -5,11 +5,11 @@
     "nodemon": "*"
   },
   "scripts": {
-    "prestart": "npx puppeteer browsers install chromium",
+    "prestart": "npx puppeteer browsers install chromium@1083080",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "npx puppeteer browsers install chrome --platform=linux"
+    "postinstall": "npx puppeteer browsers install chromium@1083080"
   },
   "engines": {
     "node": "20.x"
