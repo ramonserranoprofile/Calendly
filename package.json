@@ -5,7 +5,7 @@
     "nodemon": "*"
   },
   "scripts": {
-    "prestart": "npx playwright install && npx playwright install-deps",
+    "prestart": "",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
