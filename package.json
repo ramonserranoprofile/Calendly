@@ -9,7 +9,7 @@
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "node ./postinstall.js"
+    "postinstall": ""
   },
   "engines": {
     "node": "20.x"
