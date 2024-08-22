@@ -25,7 +25,7 @@ export const clients = [];
 export async function startingPuppeteer() {
     try {        
         const browser = await puppeteer.launch({
-            executablePath: executablePath(),
+            executablePath: '/usr/bin/chromium-browser', //executablePath(),
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
