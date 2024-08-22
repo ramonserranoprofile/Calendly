@@ -19,13 +19,14 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
+import chromium from 'chrome-aws-lambda'
 //import cacheDirectory from '../.puppeteerrc.cjs';
 export const clients = [];
 
 export async function startingPuppeteer() {
     try {        
         const browser = await puppeteer.launch({
-            executablePath: '/usr/bin/chromium-browser', //executablePath(),
+            executablePath: await chromium.executablePath, //executablePath(),
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
