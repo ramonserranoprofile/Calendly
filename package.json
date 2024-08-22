@@ -5,11 +5,11 @@
     "nodemon": "*"
   },
   "scripts": {
-    "prestart": "",
+    "prestart": "npx playwright install",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": ""
+    "postinstall": "sudo npx playwright install-deps"
   },
   "engines": {
     "node": "20.x"
