@@ -21,39 +21,39 @@ dotenv();
 const app = express();
 
 // MIDDLEWARES DE SEGURIDAD
-app.disable('etag');
-app.disable('x-powered-by-header');
-app.disable('x-powered-by');
+// app.disable('etag');
+// app.disable('x-powered-by-header');
+// app.disable('x-powered-by');
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
-    standardHeaders: true, // Envia la información de tasa en los headers 'RateLimit-*'
-    legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
-    message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
-});
-// Aplica el middleware a todas las rutas
-app.use(limiter);
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutos
+//     max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
+//     standardHeaders: true, // Envia la información de tasa en los headers 'RateLimit-*'
+//     legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
+//     message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
+// });
+// // Aplica el middleware a todas las rutas
+// app.use(limiter);
 
-app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self';");
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self';");
+//     next();
+// });
 
-app.use(session({
-    secret: process.env.CSRF_SECRET, // Debes proporcionar un secreto seguro aquí
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true } // Asegúrate de que este valor esté en true si usas HTTPS
-}));
+// app.use(session({
+//     secret: process.env.CSRF_SECRET, // Debes proporcionar un secreto seguro aquí
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false } // Asegúrate de que este valor esté en true si usas HTTPS
+// }));
 
-const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
+//const csrfProtection = csrf({ cookie: false });
+//app.use(csrfProtection);
 
-app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
-    next();
-});
+// app.use((req, res, next) => {
+//     res.locals.csrfToken = req.csrfToken();
+//     next();
+// });
 
 // FIN MIDDLEWARES DE SEGURIDAD
 
@@ -62,8 +62,9 @@ app.use((req, res, next) => {
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', ejs);
-
+app.set('view engine', 'ejs');
+// Sirve archivos estáticos desde la carpeta 'public'
+app.use(express.static('public'));
 
 // Crear el directorio y archivo de log si no existen
 const logsDir = path.join(__dirname, 'logs');
@@ -105,22 +106,32 @@ export const loggerWinston = winston.createLogger({
 const SESSIONS_PATH = path.resolve(__dirname, '../');
 
 // Cargar routers
-app.use('/api', limiter, router);
+app.use('/', router, (req, res) => {
+    res.render('index', { title: 'Esto es root' });
+});
 
 // Función para cargar los clientes existentes al iniciar la aplicación
 loadExistingClients();
 
 // Middleware para manejar errores 404
-// Sirve archivos estáticos desde la carpeta 'public'
-app.use(express.static('public'));
 
+// Manejo de errores CSRF
+app.use((err, req, res, next) => {
+    if (err.code === 'EBADCSRFTOKEN') {
+        // Token CSRF inválido o faltante
+        res.status(403);
+        res.send('La solicitud no es segura, por favor intenta de nuevo.');
+    } else {
+        next(err);
+    }
+});
+// Error handling middleware
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-// Middleware para manejar errores
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500).render('error', { message: err.message });

@@ -328,7 +328,7 @@ const limiter = rateLimit({
 });
 
 // Página principal
-router.get('/', limiter, (req, res) => {
+router.get('/api', (req, res) => {
     res.render('index', { title: 'Esto es Express', csrfToken: res.locals.csrfToken });
 });
 
