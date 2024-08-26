@@ -6,7 +6,7 @@ dotenv();
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer-core';
-import { __dirname } from '../app.js';
+import { __dirname } from '../.cache/puppeteer/app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg3;
 import { MongoStore } from 'wwebjs-mongo';
 import mongoose from 'mongoose'
