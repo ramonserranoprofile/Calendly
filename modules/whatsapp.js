@@ -31,9 +31,9 @@ const { chromium } = pkg3;
 export const clients = [];
 
 // spartacuz
-await chromium.font(
-    "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
-);
+// await chromium.font(
+//     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
+// );
 (async () => {
     try {
         // Optional: Load any fonts you need.
