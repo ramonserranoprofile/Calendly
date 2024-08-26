@@ -30,7 +30,7 @@
     "src"
   ],
   "scripts": {
-    "prestart": "",
+    "prestart": "npx playwright install",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
