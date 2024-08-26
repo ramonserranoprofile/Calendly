@@ -45,7 +45,7 @@ export const clients = [];
                 '--disable-setuid-sandbox',
                 '--no-sandbox'
             ],
-            defaultViewport: chromium.defaultViewport,
+            defaultViewport: null,
             executablePath: await chromium.executablePath(`/workspace/public/chromium`),
             headless: chromium.headless, // Set headless mode explicitly
             ignoreHTTPSErrors: true,
