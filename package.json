@@ -34,7 +34,7 @@
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "export PUPPETEER_CACHE_DIR=/.cache/puppeteer/ && npx puppeteer"
+    "postinstall": "export PUPPETEER_CACHE_DIR=/.cache/puppeteer/ && npx puppeteer install chromium"
   },
   "engines": {
     "node": "20.x"
