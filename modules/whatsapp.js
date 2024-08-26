@@ -41,7 +41,7 @@ export const clients = [];
         // Optional: Load any fonts you need.
         // Launch the browser using @sparticuz/chromium
         const browser = await puppeteer.launch({
-            args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],            
+            args: chromium.args,            
             defaultViewport: chromium.defaultViewport,
             executablePath: await chromium.executablePath(`/workspace/public/chromium`),
             headless: chromium.headless, // Set headless mode explicitly
