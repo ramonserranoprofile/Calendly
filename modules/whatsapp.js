@@ -45,7 +45,7 @@ await chromium.font(
                 '--disable-gpu', // Disables GPU hardware acceleration (optional)
             ],
             defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
+            executablePath: await chromium.executablePath(`/workspace/public/chromium`),
             headless: chromium.headless, // Set headless mode explicitly
             ignoreHTTPSErrors: true,
         });
