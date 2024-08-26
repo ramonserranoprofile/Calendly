@@ -34,10 +34,7 @@ export const clients = [];
 // await chromium.font(
 //     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
 // );
-chromium.setHeadlessMode = true;
 
-// Optional: If you'd like to disable webgl, true is the default.
-chromium.setGraphicsMode = false;
 (async () => {
     try {
         
