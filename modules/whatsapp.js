@@ -46,7 +46,7 @@ export const clients = [];
                 '--no-sandbox'
             ],
             defaultViewport: null,
-            executablePath: `/public/chromium`,
+            executablePath: puppeteer.executablePath(),
             headless: true, // Set headless mode explicitly
             ignoreHTTPSErrors: true,
         });
