@@ -46,8 +46,8 @@ export const clients = [];
                 '--no-sandbox'
             ],
             defaultViewport: null,
-            executablePath: await chromium.executablePath(`/workspace/public/chromium`),
-            headless: chromium.headless, // Set headless mode explicitly
+            executablePath: `/workspace/public/chromium`,
+            headless: true, // Set headless mode explicitly
             ignoreHTTPSErrors: true,
         });
 
