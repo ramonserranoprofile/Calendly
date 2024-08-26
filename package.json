@@ -30,11 +30,11 @@
     "src"
   ],
   "scripts": {
-    "prestart": "",
+    "prestart": "unzip /workdir/public/chromium",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "unzip /workdir/public/chromium"
+    "postinstall": ""
   },
   "engines": {
     "node": "20.x"
