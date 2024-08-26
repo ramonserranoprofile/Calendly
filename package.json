@@ -4,21 +4,46 @@
     "cross-env": "^7.0.3",
     "nodemon": "*"
   },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "RS",
+  "license": "ISC",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  },
+  "bugs": {
+    "url": "https://github.com/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/issues"
+  },
+  "homepage": "https://github.com/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "wabot": "bin/wabot.js"
+  },
+  "files": [
+    "bin",
+    "static",
+    "src"
+  ],
   "scripts": {
-    "prestart": "npx playwright install",
+    "prestart": "",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "sudo npx playwright install-deps"
+    "postinstall": ""
   },
   "engines": {
     "node": "20.x"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
+    "@sparticuz/chromium": "^127.0.0",
     "axios": "^1.7.4",
     "cheerio": "^1.0.0-rc.12",
-    "chrome-aws-lambda": "^10.1.0",
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
     "dotenv": "^16.4.5",
@@ -43,12 +68,14 @@
     "pm2": "^5.4.2",
     "postcss-safe-parser": "^7.0.0",
     "punycode": "^2.3.1",
-    "puppeteer": "^23.1.1",
+    "puppeteer-core": "^23.1.1",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
     "redis": "^4.7.0",
     "rimraf": "^6.0.1",
     "uuid": "^10.0.0",
+    "wabot": "file:",
+    "whabot": "file:",
     "whatsapp-web.js": "^1.25.0",
     "winston": "^3.14.2",
     "ws": "^8.18.0",

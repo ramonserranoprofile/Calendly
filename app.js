@@ -20,7 +20,7 @@ dotenv();
 
 const app = express();
 
-// Middlewares de seguridad
+// MIDDLEWARES DE SEGURIDAD
 app.disable('etag');
 app.disable('x-powered-by-header');
 app.disable('x-powered-by');
@@ -54,11 +54,35 @@ app.use((req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
-app.use(express.json());
 
+// FIN MIDDLEWARES DE SEGURIDAD
+
+// Establecer la ubicación de las vistas
+// Obtén el directorio actual
+const __filename = fileURLToPath(import.meta.url);
+export const __dirname = path.dirname(__filename);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', ejs);
+
+
+// Crear el directorio y archivo de log si no existen
+const logsDir = path.join(__dirname, 'logs');
+const logFile = path.join(logsDir, 'traccess.log');
+
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+}
+
+if (!fs.existsSync(logFile)) {
+    fs.writeFileSync(logFile, '');
+}
+// Configuración de Morgan para registro de solicitudes
+app.use(logger('dev'));
+app.use(morgan('combined', { stream: fs.createWriteStream(logFile, { flags: 'a' }) }));
+app.use(express.json());
 // Configuración de middleware
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Configuración de OpenAI
@@ -78,36 +102,7 @@ export const loggerWinston = winston.createLogger({
     ],
 });
 
-// Establecer la ubicación de las vistas
-// Obtén el directorio actual
-const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
-// export const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', ejs);
-
-// Crear el directorio y archivo de log si no existen
-const logsDir = path.join(__dirname, 'logs');
-const logFile = path.join(logsDir, 'traccess.log');
-
-if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
-}
-
-if (!fs.existsSync(logFile)) {
-    fs.writeFileSync(logFile, '');
-}
-
-// // Configuración de Morgan para registro de solicitudes
-// app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
-// app.use(logger('dev'));
-
-// Configuración de Morgan para registro de solicitudes
-app.use(morgan('combined', { stream: fs.createWriteStream(logFile, { flags: 'a' }) }));
-app.use(logger('dev'));
-
 const SESSIONS_PATH = path.resolve(__dirname, '../');
-
 
 // Cargar routers
 app.use('/api', limiter, router);
@@ -116,6 +111,9 @@ app.use('/api', limiter, router);
 loadExistingClients();
 
 // Middleware para manejar errores 404
+// Sirve archivos estáticos desde la carpeta 'public'
+app.use(express.static('public'));
+
 app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;

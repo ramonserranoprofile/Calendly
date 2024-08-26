@@ -5,7 +5,7 @@ import { config as dotenv } from 'dotenv';
 dotenv();
 import fs from 'fs';
 import path from 'path';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
 import { MongoStore } from 'wwebjs-mongo';
@@ -17,17 +17,56 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-import { chromium } from 'playwright';
+import pkg2 from 'playwright';
+const { chromium: chrome } = pkg2;
+import test from "node:test";
+import chromium from '@sparticuz/chromium';
+
+
+
 //import cacheDirectory from '../.puppeteerrc.cjs';
 
 
 export const clients = [];
 
+// spartacuz
+chromium.setHeadlessMode == true;
+
+// Optional: If you'd like to disable webgl, true is the default.
+chromium.setGraphicsMode == false;
+
+// Optional: Load any fonts you need. Open Sans is included by default in AWS Lambda instances
+// await chromium.font(
+//     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
+// );
+
+test("Check the page title of example.com", async () => {
+    const browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v127.0.0/chromium-v127.0.0-pack.tar"),
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
+    });
+
+    const page = await browser.newPage();
+    await page.goto("https://www.ramonserranoprofile.com");
+    const pageTitle = await page.title();
+    await browser.close();
+
+    assert.strictEqual(pageTitle, "My Portfolio");
+});
+
+//spartacuz
+
+
+
 export async function startingPuppeteer() {
     try {
         const browser = await puppeteer.launch({            
-            headless: 'new',
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            headless: chromium.headless,
+            executablePath: await chromium.executablePath(),
+            args: chromium.args,
         });
         console.log('Puppeteer iniciado correctamente');
         // tu código aquí
@@ -38,21 +77,23 @@ export async function startingPuppeteer() {
     }
 }
 
-//startingPuppeteer();
+startingPuppeteer();
 
-// (async () => {
-//     const browser = await chromium.launch();
-//     const page = await browser.newPage();
-//     await page.goto('https://example.com');
-//     await page.screenshot({ path: 'example.png' });
-
-//     await browser.close();
-// })();
+(async () => {
+    try {
+        const browser = await chrome.launch();
+        console.log("Browser launched successfully!");
+        await browser.close();
+        console.log("Browser closed successfully!");
+    } catch (error) {
+        console.error("Error launching browser:", error);
+    }
+})();
 
 async function takeScreenshot() {
     try {
         // Lanza una nueva instancia del navegador Chromium
-        const browser = await chromium.launch({
+        const browser = await chrome.launch({
             headless: true, // Set to true for headless mode
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
@@ -140,6 +181,7 @@ async function initializeClient(user, email) {
         authStrategy: new RemoteAuth({
             clientId: clientId,
             //dataPath: './.wwebjs_auth/',
+            dataPath: './data/.wwebjs_auth/',
             store: store,
             backupSyncIntervalMs: 60000,
             //puppeteer: puppeteerOptions,
