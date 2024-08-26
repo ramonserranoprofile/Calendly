@@ -1,13 +1,13 @@
 import qrcode from 'qrcode-terminal';
 import qrcodeLib from 'qrcode';
-import pkg from 'whatsapp-web.js';
+import pkg3 from 'whatsapp-web.js';
 import { config as dotenv } from 'dotenv';
 dotenv();
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer-core';
 import { __dirname } from '../app.js';
-const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
+const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg3;
 import { MongoStore } from 'wwebjs-mongo';
 import mongoose from 'mongoose'
 import {
@@ -20,8 +20,8 @@ import {
 import pkg2 from 'playwright';
 const { chromium: chrome } = pkg2;
 import test from "node:test";
-import pkg3 from '@sparticuz/chromium';
-const { chromium } = pkg3;
+import pkg from '@sparticuz/chromium';
+const { chromium } = pkg;
 
 
 
