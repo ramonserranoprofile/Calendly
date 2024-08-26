@@ -41,14 +41,15 @@ chromium.setGraphicsMode == false;
 // );
 
 (async () => {
-    const browser = await puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
-    });
     try {
+        const browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true,
+        });
+
         const page = await browser.newPage();
         await page.goto("https://www.ramonserranoprofile.com");
         const pageTitle = await page.title();
