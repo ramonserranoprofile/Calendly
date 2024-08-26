@@ -44,7 +44,7 @@ test("Check the page title of example.com", async () => {
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath("https://appointment-tierarzt-ffm.koyeb.app/chromium-v127.0.0-pack.tar"),
+        executablePath: await chromium.executablePath(),
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
     });
