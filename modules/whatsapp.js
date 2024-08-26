@@ -59,54 +59,54 @@ test("Check the page title of example.com", async () => {
 
 //spartacuz
 
-export async function startingPuppeteer() {
-    try {
-        const browser = await puppeteer.launch({            
-            headless: chromium.headless,
-            executablePath: await chromium.executablePath(),
-            args: chromium.args,
-        });
-        console.log('Puppeteer iniciado correctamente');
-        // tu código aquí
-        await browser.close();
-        console.log('Puppeteer cerrado correctamente')
-    } catch (error) {
-        console.error('Error iniciando Puppeteer:', error);
-    }
-}
+// export async function startingPuppeteer() {
+//     try {
+//         const browser = await puppeteer.launch({            
+//             headless: chromium.headless,
+//             executablePath: await chromium.executablePath(),
+//             args: chromium.args,
+//         });
+//         console.log('Puppeteer iniciado correctamente');
+//         // tu código aquí
+//         await browser.close();
+//         console.log('Puppeteer cerrado correctamente')
+//     } catch (error) {
+//         console.error('Error iniciando Puppeteer:', error);
+//     }
+// }
 
-startingPuppeteer();
+// startingPuppeteer();
 
-(async () => {
-    try {
-        const browser = await chrome.launch();
-        console.log("Browser launched successfully!");
-        await browser.close();
-        console.log("Browser closed successfully!");
-    } catch (error) {
-        console.error("Error launching browser:", error);
-    }
-})();
+// (async () => {
+//     try {
+//         const browser = await chrome.launch();
+//         console.log("Browser launched successfully!");
+//         await browser.close();
+//         console.log("Browser closed successfully!");
+//     } catch (error) {
+//         console.error("Error launching browser:", error);
+//     }
+// })();
 
-async function takeScreenshot() {
-    try {
-        // Lanza una nueva instancia del navegador Chromium
-        const browser = await chrome.launch({
-            headless: true, // Set to true for headless mode
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        });
-        console.log('Playwright iniciado correctamente');        
-        // Cierra el navegador
-        await browser.close();
-        console.log('Playwright cerrado correctamente')
+// async function takeScreenshot() {
+//     try {
+//         // Lanza una nueva instancia del navegador Chromium
+//         const browser = await chrome.launch({
+//             headless: true, // Set to true for headless mode
+//             args: ['--no-sandbox', '--disable-setuid-sandbox'],
+//         });
+//         console.log('Playwright iniciado correctamente');        
+//         // Cierra el navegador
+//         await browser.close();
+//         console.log('Playwright cerrado correctamente')
         
-    } catch (error) {
-        console.error('Error opening Playwright:', error);
-    }
-}
+//     } catch (error) {
+//         console.error('Error opening Playwright:', error);
+//     }
+// }
 
-// Invoca la función con una URL y la ruta del archivo de la captura de pantalla
-takeScreenshot();
+// // Invoca la función con una URL y la ruta del archivo de la captura de pantalla
+// takeScreenshot();
 
 
 // Función para iniciar Puppeteer con los argumentos necesarios
