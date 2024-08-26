@@ -40,7 +40,7 @@ chromium.setGraphicsMode == false;
 //     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
 // );
 
-test("Check the page title of example.com", async () => {
+async () => {
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
@@ -55,7 +55,7 @@ test("Check the page title of example.com", async () => {
     await browser.close();
 
     assert.strictEqual(pageTitle, "My Portfolio");
-});
+};
 
 //spartacuz
 
