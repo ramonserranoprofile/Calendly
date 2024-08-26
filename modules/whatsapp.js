@@ -20,7 +20,8 @@ import {
 import pkg2 from 'playwright';
 const { chromium: chrome } = pkg2;
 import test from "node:test";
-import { chromium } from '@sparticuz/chromium';
+import pkg3 from '@sparticuz/chromium';
+const { chromium } = pkg3;
 
 
 
