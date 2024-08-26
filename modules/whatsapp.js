@@ -40,7 +40,7 @@ chromium.setGraphicsMode == false;
 //     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
 // );
 
-async () => {
+(async () => {
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
@@ -48,14 +48,17 @@ async () => {
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
     });
+    try {
+        const page = await browser.newPage();
+        await page.goto("https://www.ramonserranoprofile.com");
+        const pageTitle = await page.title();
+        await browser.close();
 
-    const page = await browser.newPage();
-    await page.goto("https://www.ramonserranoprofile.com");
-    const pageTitle = await page.title();
-    await browser.close();
-
-    assert.strictEqual(pageTitle, "My Portfolio");
-};
+        assert.strictEqual(pageTitle, "My Portfolio");
+    } catch (error) {
+        console.error("Error launching browser:", error);
+    }
+})();
 
 //spartacuz
 
@@ -99,7 +102,7 @@ async () => {
 //         // Cierra el navegador
 //         await browser.close();
 //         console.log('Playwright cerrado correctamente')
-        
+
 //     } catch (error) {
 //         console.error('Error opening Playwright:', error);
 //     }
