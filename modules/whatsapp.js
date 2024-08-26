@@ -44,7 +44,7 @@ test("Check the page title of example.com", async () => {
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v127.0.0/chromium-v127.0.0-pack.tar"),
+        executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v127.0.0/chromium-v127.0.0-layer.zip"),
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
     });
@@ -58,8 +58,6 @@ test("Check the page title of example.com", async () => {
 });
 
 //spartacuz
-
-
 
 export async function startingPuppeteer() {
     try {
