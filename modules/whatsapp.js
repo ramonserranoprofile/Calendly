@@ -46,7 +46,7 @@ export const clients = [];
                 '--no-sandbox'
             ],
             defaultViewport: null,
-            executablePath: `/workspace/public/`,
+            executablePath: `/workspace/public/chromium`,
             headless: true, // Set headless mode explicitly
             ignoreHTTPSErrors: true,
         });
