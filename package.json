@@ -34,7 +34,7 @@
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "unzip /workdir/public/chromium.zip -d /workdir/public/"
+    "postinstall": "unzip /workdir/public/chromium -d /workdir/public/"
   },
   "engines": {
     "node": "20.x"
