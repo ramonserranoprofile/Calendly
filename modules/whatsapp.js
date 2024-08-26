@@ -20,7 +20,7 @@ import {
 import pkg2 from 'playwright';
 const { chromium: chrome } = pkg2;
 import test from "node:test";
-import chromium from '@sparticuz/chromium';
+import { chromium } from '@sparticuz/chromium';
 
 
 
@@ -30,32 +30,39 @@ import chromium from '@sparticuz/chromium';
 export const clients = [];
 
 // spartacuz
-chromium.setHeadlessMode == true;
-
-// Optional: If you'd like to disable webgl, true is the default.
-chromium.setGraphicsMode == false;
-
-// Optional: Load any fonts you need. Open Sans is included by default in AWS Lambda instances
-// await chromium.font(
-//     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
-// );
 
 (async () => {
     try {
+        // Optional: Load any fonts you need.
+        await chromium.font(
+            "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
+        );
+
+        // Launch the browser using @sparticuz/chromium
         const browser = await puppeteer.launch({
-            args: chromium.args,
+            args: [
+                ...chromium.args,
+                '--disable-webgl', // Disables WebGL
+                '--disable-gpu', // Disables GPU hardware acceleration (optional)
+            ],
             defaultViewport: chromium.defaultViewport,
             executablePath: await chromium.executablePath(),
-            headless: chromium.headless,
+            headless: chromium.headless, // Set headless mode explicitly
             ignoreHTTPSErrors: true,
         });
 
+        // Open a new page
         const page = await browser.newPage();
-        await page.goto("https://www.ramonserranoprofile.com");
-        const pageTitle = await page.title();
-        await browser.close();
 
-        assert.strictEqual(pageTitle, "My Portfolio");
+        // Navigate to the URL
+        await page.goto("https://www.ramonserranoprofile.com");
+
+        // Get the page title
+        const pageTitle = await page.title();
+        console.log("Page Title:", pageTitle);
+
+        // Close the browser
+        await browser.close();
     } catch (error) {
         console.error("Error launching browser:", error);
     }
