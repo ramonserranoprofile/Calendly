@@ -30,18 +30,18 @@
     "src"
   ],
   "scripts": {
-    "prestart": "",
+    "prestart": "set PUPPETEER_CACHE=.cache/puppeteer && npx @puppeteer/browsers install chromium@latest",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": "export PUPPETEER_CACHE_DIR=/.cache/puppeteer/ && npx puppeteer install chromium"
+    "postinstall": "set PUPPETEER_CACHE=.cache/puppeteer && npx @puppeteer/browsers install chromium@latest"
   },
   "engines": {
     "node": "20.x"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
-    "@sparticuz/chromium": "^127.0.0",
+    "@sparticuz/chromium-min": "^127.0.0",
     "axios": "^1.7.4",
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",

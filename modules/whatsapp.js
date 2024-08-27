@@ -6,7 +6,7 @@ dotenv();
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer-core';
-import { __dirname } from '../.cache/puppeteer/app.js';
+import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg3;
 import { MongoStore } from 'wwebjs-mongo';
 import mongoose from 'mongoose'
@@ -17,11 +17,12 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-import pkg2 from 'playwright';
-const { chromium: chrome } = pkg2;
+// import pkg2 from 'playwright';
+// const { chromium: chrome } = pkg2;
 import test from "node:test";
-import pkg from '@sparticuz/chromium';
+import pkg from '@sparticuz/chromium-min';
 const { chromium } = pkg;
+
 
 
 
@@ -31,29 +32,31 @@ const { chromium } = pkg;
 export const clients = [];
 
 // spartacuz
-// await chromium.font(
-//     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
-// );
 
-(async () => {
+
+test("Check the page title of example.com", (async (t) => {
     try {
+        //chromium.setHeadlessMode = true;
+        // Optional: If you'd like to disable webgl, true is the default.
+        //chromium.setGraphicsMode = false;
+        // Optional: Load any fonts you need. Open Sans is included by default in AWS Lambda instances
+        // await chromium.font(
+        //     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
+        // );
         
         // Optional: Load any fonts you need.
         // Launch the browser using @sparticuz/chromium
         const browser = await puppeteer.launch({
-            args: [                
-                '--disable-setuid-sandbox',
-                '--no-sandbox'
-            ],
+            // Optional: If you'd like to disable webgl, true is the default.
+            args: [ '--no-sandbox', '--disable-setuid-sandbox' ],
             defaultViewport: null,
-            executablePath: '/.cache/puppeteer/chromium',
-            headless: true, // Set headless mode explicitly
-            ignoreHTTPSErrors: true,
+            executablePath: './.cache/puppeteer/chromium/win64-1347344/chrome-win/chrome.exe',
+            headless: true,
         });
 
         // Open a new page
         const page = await browser.newPage();
-
+        console.log('Puppeteer iniciado correctamente');
         // Navigate to the URL
         await page.goto("https://www.ramonserranoprofile.com");
 
@@ -63,10 +66,11 @@ export const clients = [];
 
         // Close the browser
         await browser.close();
+        console.log('Puppeteer cerrado correctamente')
     } catch (error) {
         console.error("Error launching browser:", error);
     }
-})();
+}))();
 
 //spartacuz
 

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import { config as dotenv } from 'dotenv';
 dotenv();
-import { openaiClient } from '../.cache/puppeteer/app.js';
+import { openaiClient } from '../app.js'
 import fs from 'fs';
 import redis from '../Databases/redisDB.js';
 import { OpenAI } from 'openai';
