@@ -5,7 +5,6 @@ import { openaiClient } from '../app.js'
 import fs from 'fs';
 import redis from '../Databases/redisDB.js';
 import { OpenAI } from 'openai';
-import axios from 'axios';
 import { text } from 'express';
 import https from 'https';
 // Configuración del transporte de nodemailer

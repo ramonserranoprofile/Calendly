@@ -1,10 +1,13 @@
 import qrcode from 'qrcode-terminal';
 import qrcodeLib from 'qrcode';
+import pkg from 'whatsapp-web.js';
 import { config as dotenv } from 'dotenv';
 dotenv();
 import fs from 'fs';
 import path from 'path';
-import pkg from 'whatsapp-web.js';
+import puppeteer from 'puppeteer';
+//import puppeteer from 'puppeteer-core';
+import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
 import { MongoStore } from 'wwebjs-mongo';
 import mongoose from 'mongoose'
@@ -15,139 +18,42 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-import { __dirname } from '../app.js';
-import { cache } from 'ejs';
-//import cacheDirectory from '../.puppeteerrc.cjs';
-
-
+import puppeteerConfig from '../.puppeteerrc.mjs';
 export const clients = [];
-
-// spartacuz
-
-
-// (async () => {
-//     try {
-        //chromium.setHeadlessMode = true;
-        // Optional: If you'd like to disable webgl, true is the default.
-        //chromium.setGraphicsMode = false;
-        // Optional: Load any fonts you need. Open Sans is included by default in AWS Lambda instances
-        // await chromium.font(
-        //     "https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
-        // );
-        
-        // Optional: Load any fonts you need.
-        // Launch the browser using @sparticuz/chromium
-//         const browser = await puppeteer.launch({
-//             // Optional: If you'd like to disable webgl, true is the default.
-//             args: [ '--no-sandbox', '--disable-setuid-sandbox' ],
-//             defaultViewport: null,
-//             executablePath: './.cache/puppeteer/chromium/win64-1347344/chrome-win/chrome.exe',
-//             headless: true,
-//         });
-
-//         // Open a new page
-//         const page = await browser.newPage();
-//         console.log('Puppeteer iniciado correctamente');
-//         // Navigate to the URL
-//         await page.goto("https://www.ramonserranoprofile.com");
-
-//         // Get the page title
-//         const pageTitle = await page.title();
-//         console.log("Page Title:", pageTitle);
-
-//         // Close the browser
-//         await browser.close();
-//         console.log('Puppeteer cerrado correctamente')
-//     } catch (error) {
-//         console.error("Error launching browser:", error);
-//     }
-// })();
-
-//spartacuz
-
-// export async function startingPuppeteer() {
-//     try {
-//         const browser = await chromium.launch({            
-//             headless: 'new',
-//             executablePath: './.cache/puppeteer/chromium/win64-1347344/chrome-win/chrome.exe',
-//             args: ['--no-sandbox', '--disable-setuid-sandbox' ],
-//         });
-//         console.log('Puppeteer 2 iniciado correctamente');
-//         // tu código aquí
-//         await browser.close();
-//         console.log('Puppeteer 2 cerrado correctamente')
-//     } catch (error) {
-//         console.error('Error iniciando Puppeteer:', error);
-//     }
-// }
-
-// startingPuppeteer();
-
-// (async () => {
-//     try {
-//         const browser = await chrome.launch();
-//         console.log("Browser launched successfully!");
-//         await browser.close();
-//         console.log("Browser closed successfully!");
-//     } catch (error) {
-//         console.error("Error launching browser:", error);
-//     }
-// })();
-
-// async function takeScreenshot() {
-//     try {
-//         // Lanza una nueva instancia del navegador Chromium
-//         const browser = await chrome.launch({
-//             headless: true, // Set to true for headless mode
-//             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-//         });
-//         console.log('Playwright iniciado correctamente');        
-//         // Cierra el navegador
-//         await browser.close();
-//         console.log('Playwright cerrado correctamente')
-
-//     } catch (error) {
-//         console.error('Error opening Playwright:', error);
-//     }
-// }
-
-// // Invoca la función con una URL y la ruta del archivo de la captura de pantalla
-// takeScreenshot();
 
 
 // Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
 
-// const mergedConfig = Object.assign({}, cacheDirectory, {
-//     // Add other default options here if needed
-// });
+const mergedConfig = Object.assign({}, puppeteerConfig, {
+    // Add other default options here if needed
+});
 
 // Launch Puppeteer with the merged configuration
-// const launchOptions = {
-//     headless: "new", // Add other launch options here if needed
-//     //...mergedConfig, // Spread the merged configuration here
-//     executablePath: executablePath(),  
-//     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-//     //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
-//         //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
-//     //timeout: 720000, // Set timeout to 120 seconds or adjust as needed
-//     //defaultViewport: null, // Add this line to disable viewport
-//     // Add the following line to increase protocolTimeout
-//     //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
-// };
-// async function startPuppeteer() {
-//     const browser = //await puppeteer.launch(launchOptions);
-//         await puppeteer.launch({
-//             //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
-//             //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
-//             //     //'/usr/bin/chromium',
-//             //     '/usr/bin/google-chrome',
-//             headless: 'new',
-//             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-//         });
+const launchOptions = {
+    headless: 'new', // Add other launch options here if needed
+    ...mergedConfig, // Spread the merged configuration here
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
+    //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
+    //timeout: 720000, // Set timeout to 120 seconds or adjust as needed
+    //defaultViewport: null, // Add this line to disable viewport
+    // Add the following line to increase protocolTimeout
+    //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
+};
+async function startPuppeteer() {
+    const browser = await puppeteer.launch(launchOptions);
+    // await puppeteer.launch({
+    //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
+    //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
+    //     //'/usr/bin/chromium',
+    //     '/usr/bin/google-chrome',
+    //     headless: 'new',
+    //     //args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    // });
 
-//     return browser;
-// };
+    return browser;
+};
 
 // Llama a la función para iniciar Puppeteer
 try {
@@ -170,38 +76,31 @@ async function initializeClient(user, email) {
     const sessionName = `${user}-_${cleanEmail}`;
     const clientId = `${user}-_${cleanEmail}`;
     const store = new MongoStore({ mongoose: mongoose });
-    
-    // let puppeteerOptions
-    // startPuppeteer().then(browser => {
-    //     // Puedes usar 'browser' aquí para navegar por la web u otras tareas
-    //     const puppeteerOptions = {
-    //         browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
-    //         // Add other Puppeteer options here if needed            
-    //     }
-    //     return puppeteerOptions;
-    // });
-    const sessionDir = path.join(__dirname, './data/.wwebjs_cache');
+    const SESSIONS_PATH = path.resolve(__dirname, '../');
+    let puppeteerOptions
+    startPuppeteer().then(browser => {
+        // Puedes usar 'browser' aquí para navegar por la web u otras tareas
+        const puppeteerOptions = {
+            browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
+            // Add other Puppeteer options here if needed            
+        }
+        return puppeteerOptions;
+    });
+    const datapath = path.join(__dirname, 'data')
     const client = new Client({
         authStrategy: new RemoteAuth({
             clientId: clientId,
-            dataPath: './data/.wwebjs_auth',                      
+            dataPath: datapath,
             store: store,
             backupSyncIntervalMs: 60000,
-            //puppeteer: puppeteerOptions,
-            puppeteer: {
-                headless: true,
-                
-                //...mergedConfig,
-                //executablePath: './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-104562 /chrome-win/chrome.exe',
-                args: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                ],
-            },
-            webVersionCache: {
-                type: 'local',
-                remotePath: './data/.wwebjs_cache',
-            },
+            puppeteer: puppeteerOptions,
+            // puppeteer: {
+            //     headless: true,
+            //     args: [
+            //         '--no-sandbox',
+            //         '--disable-setuid-sandbox',
+            //     ],
+            // },
             dumpio: true,
         })
     })
@@ -309,7 +208,7 @@ async function initializeClient(user, email) {
             if (!(msg.hasMedia) && (msg.type === 'chat') && (msg._data.subtype !== 'url') && (msg._data.from !== 'status@broadcast')) {
                 console.log('Received text message:', msg);
                 client.sendSeen(msg.from);
-                //msg.react('👍');
+                msg.react('👍');
                 const buttons = {
                     "messaging_product": "whatsapp",
                     "recipient_type": "individual",
@@ -392,13 +291,13 @@ async function initializeClient(user, email) {
     });
 
     client.initialize();
-    return client;
+    return { client, datapath };
 
 };
 
 
 export async function loadExistingClients(client) {
-    const authPath = path.join(__dirname, '.wwebjs_auth');
+    const authPath = path.join(__dirname, 'data');
     if (fs.existsSync(authPath)) {
         fs.readdirSync(authPath).forEach(folder => {
             if (folder.startsWith('RemoteAuth-')) {

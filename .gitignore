@@ -2,5 +2,5 @@ node_modules/
 .env
 env/
 .cache/
-/data/.wwebjs_auth/
 .vscode/
+data/
