@@ -5,11 +5,11 @@
     "nodemon": "*"
   },
   "scripts": {
-    "prestart": "",
+    "prestart": "cross-env PUPPETEER_CACHE_DIR='./.cache/puppeteer' npx @puppeteer/browsers install chromium",
     "start": "node .",
     "dev": "nodemon",
     "builder": "node ./static/js/purgecss.config.js",
-    "postinstall": ""
+    "postinstall": "cross-env PUPPETEER_CACHE_DIR='./.cache/puppeteer' npx @puppeteer/browsers install chromium"
   },
   "engines": {
     "node": "20.x"

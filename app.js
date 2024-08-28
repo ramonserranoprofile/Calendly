@@ -21,19 +21,19 @@ dotenv();
 const app = express();
 
 // MIDDLEWARES DE SEGURIDAD
-// app.disable('etag');
-// app.disable('x-powered-by-header');
-// app.disable('x-powered-by');
+app.disable('etag');
+app.disable('x-powered-by-header');
+app.disable('x-powered-by');
 
-// const limiter = rateLimit({
-//     windowMs: 15 * 60 * 1000, // 15 minutos
-//     max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
-//     standardHeaders: true, // Envia la información de tasa en los headers 'RateLimit-*'
-//     legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
-//     message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
-// });
-// // Aplica el middleware a todas las rutas
-// app.use(limiter);
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
+    standardHeaders: true, // Envia la información de tasa en los headers 'RateLimit-*'
+    legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
+    message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
+});
+// Aplica el middleware a todas las rutas
+app.use(limiter);
 
 // app.use((req, res, next) => {
 //     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self';");
@@ -64,8 +64,8 @@ console.log('__DIRNAME', __dirname);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // Sirve archivos estáticos desde la carpeta 'public'
-app.use(express.static('public'));
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'static')));    
 // Crear el directorio y archivo de log si no existen
 const logsDir = path.join(__dirname, 'logs');
 const logFile = path.join(logsDir, 'traccess.log');
@@ -105,11 +105,14 @@ export const loggerWinston = winston.createLogger({
 
 
 // Cargar routers
-app.use('/api', router, (req, res, next) => {
+app.use('/api', limiter, router, (req, res, next) => {
     next();
     
 } );
+app.use('/', limiter, router, (req, res, next) => {
+    res.render('index', { title: 'Esto es Express' });
 
+} );
 // Función para cargar los clientes existentes al iniciar la aplicación
 loadExistingClients();
 

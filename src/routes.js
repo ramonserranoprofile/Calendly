@@ -326,9 +326,9 @@ const limiter = rateLimit({
     legacyHeaders: false, // Desactiva los headers 'X-RateLimit-*'
     message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.',
 });
-
+router.use(limiter)
 // Página principal
-router.get('/', (req, res) => {
+router.get('/', limiter, (req, res) => {
     res.render('index', { title: 'Esto es Express API' });
 });
 
