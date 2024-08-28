@@ -4,7 +4,7 @@
     "nodemon": "^3.1.4"
   },
   "scripts": {
-    "preinstall": "cross-env PUPPETEER_CACHE_DIR='/.cache/puppeteer' npx puppeteer browsers install chromium",
+    "preinstall": "cross-env PUPPETEER_CACHE='/.cache/puppeteer' npx puppeteer browsers install chromium",
     "start": "node ./index.js",
     "dev": "nodemon index.js",
     "build": "node ./static/js/purgecss.config.js",
