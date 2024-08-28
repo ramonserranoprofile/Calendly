@@ -1,10 +1,10 @@
 import path from 'path';
 import { mkdirSync, existsSync } from 'fs';
-import { __dirname } from './app.js'; 
+
 /**
  * @type {import("puppeteer").Configuration}
  */
-
+const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 // Define la ruta de la caché
 const cacheDirectory = path.join(__dirname, '.cache', 'puppeteer');
 
