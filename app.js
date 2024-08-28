@@ -46,7 +46,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Configuración de Morgan para registro de solicitudes
-app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
+// app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
 app.use(logger('dev'));
 const SESSIONS_PATH = path.resolve(__dirname, '../');
 
