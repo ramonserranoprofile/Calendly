@@ -1,13 +1,11 @@
 import qrcode from 'qrcode-terminal';
 import qrcodeLib from 'qrcode';
-import pkg3 from 'whatsapp-web.js';
 import { config as dotenv } from 'dotenv';
 dotenv();
 import fs from 'fs';
 import path from 'path';
-import puppeteer from 'puppeteer-core';
-import { __dirname } from '../app.js';
-const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg3;
+import pkg from 'whatsapp-web.js';
+const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
 import { MongoStore } from 'wwebjs-mongo';
 import mongoose from 'mongoose'
 import {
@@ -17,15 +15,8 @@ import {
     transcribeAudio,
     getAIResponse,
 } from './functions.js'
-// import pkg2 from 'playwright';
-// const { chromium: chrome } = pkg2;
-import test from "node:test";
-import pkg from '@sparticuz/chromium-min';
-const { chromium } = pkg;
-
-
-
-
+import { __dirname } from '../app.js';
+import { cache } from 'ejs';
 //import cacheDirectory from '../.puppeteerrc.cjs';
 
 
@@ -34,8 +25,8 @@ export const clients = [];
 // spartacuz
 
 
-test("Check the page title of example.com", (async (t) => {
-    try {
+// (async () => {
+//     try {
         //chromium.setHeadlessMode = true;
         // Optional: If you'd like to disable webgl, true is the default.
         //chromium.setGraphicsMode = false;
@@ -46,45 +37,45 @@ test("Check the page title of example.com", (async (t) => {
         
         // Optional: Load any fonts you need.
         // Launch the browser using @sparticuz/chromium
-        const browser = await puppeteer.launch({
-            // Optional: If you'd like to disable webgl, true is the default.
-            args: [ '--no-sandbox', '--disable-setuid-sandbox' ],
-            defaultViewport: null,
-            executablePath: './.cache/puppeteer/chromium/win64-1347344/chrome-win/chrome.exe',
-            headless: true,
-        });
+//         const browser = await puppeteer.launch({
+//             // Optional: If you'd like to disable webgl, true is the default.
+//             args: [ '--no-sandbox', '--disable-setuid-sandbox' ],
+//             defaultViewport: null,
+//             executablePath: './.cache/puppeteer/chromium/win64-1347344/chrome-win/chrome.exe',
+//             headless: true,
+//         });
 
-        // Open a new page
-        const page = await browser.newPage();
-        console.log('Puppeteer iniciado correctamente');
-        // Navigate to the URL
-        await page.goto("https://www.ramonserranoprofile.com");
+//         // Open a new page
+//         const page = await browser.newPage();
+//         console.log('Puppeteer iniciado correctamente');
+//         // Navigate to the URL
+//         await page.goto("https://www.ramonserranoprofile.com");
 
-        // Get the page title
-        const pageTitle = await page.title();
-        console.log("Page Title:", pageTitle);
+//         // Get the page title
+//         const pageTitle = await page.title();
+//         console.log("Page Title:", pageTitle);
 
-        // Close the browser
-        await browser.close();
-        console.log('Puppeteer cerrado correctamente')
-    } catch (error) {
-        console.error("Error launching browser:", error);
-    }
-}))();
+//         // Close the browser
+//         await browser.close();
+//         console.log('Puppeteer cerrado correctamente')
+//     } catch (error) {
+//         console.error("Error launching browser:", error);
+//     }
+// })();
 
 //spartacuz
 
 // export async function startingPuppeteer() {
 //     try {
-//         const browser = await puppeteer.launch({            
-//             headless: chromium.headless,
-//             executablePath: await chromium.executablePath(),
-//             args: chromium.args,
+//         const browser = await chromium.launch({            
+//             headless: 'new',
+//             executablePath: './.cache/puppeteer/chromium/win64-1347344/chrome-win/chrome.exe',
+//             args: ['--no-sandbox', '--disable-setuid-sandbox' ],
 //         });
-//         console.log('Puppeteer iniciado correctamente');
+//         console.log('Puppeteer 2 iniciado correctamente');
 //         // tu código aquí
 //         await browser.close();
-//         console.log('Puppeteer cerrado correctamente')
+//         console.log('Puppeteer 2 cerrado correctamente')
 //     } catch (error) {
 //         console.error('Error iniciando Puppeteer:', error);
 //     }
@@ -144,19 +135,19 @@ test("Check the page title of example.com", (async (t) => {
 //     // Add the following line to increase protocolTimeout
 //     //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
 // };
-async function startPuppeteer() {
-    const browser = //await puppeteer.launch(launchOptions);
-        await puppeteer.launch({
-            //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
-            //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
-            //     //'/usr/bin/chromium',
-            //     '/usr/bin/google-chrome',
-            headless: 'new',
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        });
+// async function startPuppeteer() {
+//     const browser = //await puppeteer.launch(launchOptions);
+//         await puppeteer.launch({
+//             //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
+//             //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
+//             //     //'/usr/bin/chromium',
+//             //     '/usr/bin/google-chrome',
+//             headless: 'new',
+//             args: ['--no-sandbox', '--disable-setuid-sandbox'],
+//         });
 
-    return browser;
-};
+//     return browser;
+// };
 
 // Llama a la función para iniciar Puppeteer
 try {
@@ -179,7 +170,7 @@ async function initializeClient(user, email) {
     const sessionName = `${user}-_${cleanEmail}`;
     const clientId = `${user}-_${cleanEmail}`;
     const store = new MongoStore({ mongoose: mongoose });
-    const SESSIONS_PATH = path.resolve(__dirname, '../');
+    
     // let puppeteerOptions
     // startPuppeteer().then(browser => {
     //     // Puedes usar 'browser' aquí para navegar por la web u otras tareas
@@ -189,23 +180,27 @@ async function initializeClient(user, email) {
     //     }
     //     return puppeteerOptions;
     // });
-
+    const sessionDir = path.join(__dirname, './data/.wwebjs_cache');
     const client = new Client({
         authStrategy: new RemoteAuth({
             clientId: clientId,
-            //dataPath: './.wwebjs_auth/',
-            dataPath: './data/.wwebjs_auth/',
+            dataPath: './data/.wwebjs_auth',                      
             store: store,
             backupSyncIntervalMs: 60000,
             //puppeteer: puppeteerOptions,
             puppeteer: {
-                headless: 'new',
+                headless: true,
+                
                 //...mergedConfig,
-                //executablePath: puppeteer.executablePath(),
+                //executablePath: './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-104562 /chrome-win/chrome.exe',
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
                 ],
+            },
+            webVersionCache: {
+                type: 'local',
+                remotePath: './data/.wwebjs_cache',
             },
             dumpio: true,
         })

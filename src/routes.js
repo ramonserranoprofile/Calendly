@@ -328,8 +328,8 @@ const limiter = rateLimit({
 });
 
 // Página principal
-router.get('/api', (req, res) => {
-    res.render('index', { title: 'Esto es Express', csrfToken: res.locals.csrfToken });
+router.get('/', (req, res) => {
+    res.render('index', { title: 'Esto es Express API' });
 });
 
 // Ruta GET para iniciar una nueva sesión de WhatsApp
@@ -347,34 +347,56 @@ router.get('/start/:sessionName/:email',
 );
 
 // Ruta para iniciar una nueva sesión de WhatsApp
-router.post('/start/:sessionName/:email',
-    param('sessionName').trim().escape(),
-    param('email').isEmail().normalizeEmail(),
-    (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+router.post('/start/:sessionName/:email', (req, res) => {
+    const sessionName = escapeHtml(req.params.sessionName);
+    const email = escapeHtml(req.params.email);
 
-        const { sessionName, email } = req.params;
-        const clientKey = `${sessionName}-_${email.replace('.', '_').replace('@', '-').replace('.', '_')}`;
+    const clientKey = `${sessionName}-_${email.replace('.', '_').replace('@', '-').replace('.', '_')}`;
 
-        if (clients[clientKey]) {
-            console.log(`La sesión ${sessionName} ya está en funcionamiento.`);
-            clients[clientKey].initialize();
-            return res.status(400).send(`La sesión ${escapeHtml(sessionName)} ya está en funcionamiento.`);
-        }
-
-        try {
-            initializeClient(sessionName, email);
-            console.log(`Sesión ${sessionName} iniciada con el correo ${email}`);
-            res.send(`Sesión ${escapeHtml(sessionName)} iniciada.`);
-        } catch (error) {
-            console.error(`Error al iniciar la sesión ${escapeHtml(sessionName)}:`, error);
-            res.status(500).send(`Error al iniciar la sesión ${escapeHtml(sessionName)}.`);
-        }
+    if (clients[clientKey]) {
+        console.log(`La sesión ${sessionName} ya está en funcionamiento.`);
+        clients[clientKey].initialize();
+        return res.status(400).send(`La sesión ${escapeHtml(sessionName)} ya está en funcionamiento.`);
     }
-);
+
+    try {
+        initializeClient(sessionName, email);
+        console.log(`Sesión ${sessionName} iniciada con el correo ${email}`);
+        res.send(`Sesión ${escapeHtml(sessionName)} iniciada.`);
+    } catch (error) {
+        console.error(`Error al iniciar la sesión ${sessionName}:`, error);
+        res.status(500).send(`Error al iniciar la sesión ${escapeHtml(sessionName)}.`);
+    }
+});
+// Ruta para iniciar una nueva sesión de WhatsApp
+// router.post('/start/:sessionName/:email',
+//     param('sessionName').trim().escape(),
+//     param('email').isEmail().normalizeEmail(),
+//     (req, res) => {
+//         const errors = validationResult(req);
+//         if (!errors.isEmpty()) {
+//             return res.status(400).json({ errors: errors.array() });
+//         }
+
+//         const { sessionName, email } = req.params;
+//         const clientKey = `${sessionName}-_${email.replace('.', '_').replace('@', '-').replace('.', '_')}`;
+
+//         if (clients[clientKey]) {
+//             console.log(`La sesión ${sessionName} ya está en funcionamiento.`);
+//             clients[clientKey].initialize();
+//             return res.status(400).send(`La sesión ${escapeHtml(sessionName)} ya está en funcionamiento.`);
+//         }
+
+//         try {
+//             initializeClient(sessionName, email);
+//             console.log(`Sesión ${sessionName} iniciada con el correo ${email}`);
+//             res.send(`Sesión ${escapeHtml(sessionName)} iniciada.`);
+//         } catch (error) {
+//             console.error(`Error al iniciar la sesión ${escapeHtml(sessionName)}:`, error);
+//             res.status(500).send(`Error al iniciar la sesión ${escapeHtml(sessionName)}.`);
+//         }
+//     }
+// );
 
 // Ruta para detener el cliente y eliminar una sesión de WhatsApp
 router.post('/stop/:sessionName/:email',
@@ -434,7 +456,6 @@ router.post('/pause/:sessionName/:email',
         }
     }
 );
-
 router.post('/clients_request', (req, res) => {
     res.json(clients);
 });

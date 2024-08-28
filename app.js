@@ -59,8 +59,8 @@ const app = express();
 
 // Establecer la ubicación de las vistas
 // Obtén el directorio actual
-const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
+export const __dirname = path.dirname(fileURLToPath(import.meta.url));
+console.log('__DIRNAME', __dirname);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // Sirve archivos estáticos desde la carpeta 'public'
@@ -103,12 +103,12 @@ export const loggerWinston = winston.createLogger({
     ],
 });
 
-const SESSIONS_PATH = path.resolve(__dirname, '../');
 
 // Cargar routers
-app.use('/', router, (req, res) => {
-    res.render('index', { title: 'Esto es root' });
-});
+app.use('/api', router, (req, res, next) => {
+    next();
+    
+} );
 
 // Función para cargar los clientes existentes al iniciar la aplicación
 loadExistingClients();
