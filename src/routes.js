@@ -4,14 +4,9 @@ import initializeClient, { clients } from '../modules/whatsapp.js';
 
 const router = express.Router();
 
-// Página principal
-
+// Página principal API
 router.get('/api', (req, res) => {
     res.render('index', { title: 'Esto es Api' });
-});
-
-router.get('/', (req, res) => {
-    res.send('Bienvenido a WHABOTAPI')
 });
 
 // Integrar rutas crear chatBot con la app
