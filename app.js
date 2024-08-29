@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 import ejs from 'ejs';
 import { config as dotenv } from 'dotenv';
 import router from './src/routes.js';
+import routerApi from './src/router.js';
 import OpenAI from 'openai';
 import { loadExistingClients } from './modules/whatsapp.js';
 import winston from 'winston';
@@ -53,7 +54,7 @@ const SESSIONS_PATH = path.resolve(__dirname, '../');
 // Cargar routers
 
 app.use('/', router);
-
+app.use('/api', routerApi);
 // Función para cargar los clientes existentes al iniciar la aplicación
 loadExistingClients();
 
