@@ -6,7 +6,10 @@ const router = express.Router();
 
 // Página principal
 router.get('/', (req, res) => {
-    res.render('index', { title: 'Esto es Express' });
+    res.render('index', { title: 'Esto es main route' });
+});
+router.get('/api', (req, res) => {
+    res.render('index', { title: 'Esto es Api' });
 });
 
 // Integrar rutas crear chatBot con la app
