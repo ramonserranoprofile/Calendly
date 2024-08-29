@@ -51,8 +51,8 @@ app.use(logger('dev'));
 const SESSIONS_PATH = path.resolve(__dirname, '../');
 
 // Cargar routers
+
 app.use('/', router);
-app.use('/api', router);
 
 // Función para cargar los clientes existentes al iniciar la aplicación
 loadExistingClients();
