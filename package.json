@@ -8,7 +8,7 @@
     "start": "node ./index.js",
     "dev": "nodemon index.js",
     "build": "node ./static/js/purgecss.config.js",
-    "postinstall": "npx puppeteer browsers install chromium@1083080"
+    "postinstall": ""
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
