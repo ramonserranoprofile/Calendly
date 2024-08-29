@@ -1,17 +1,17 @@
 import express from 'express';
-import initializeClient, { clients } from '../modules/whatsapp.js';
+import initializeClient, { clients } from '../../modules/whatsapp.js';
 // import ivrRouter from './ivr/routes.js';
 
-const router = express.Router();
+const routerApi = express.Router();
 
 // Página principal API
-router.get('/api', (req, res) => {
+routerApi.get('/', (req, res) => {
     res.render('index', { title: 'Esto es Api' });
 });
 
 // Integrar rutas crear chatBot con la app
 // Ruta para iniciar una nueva sesión de WhatsApp
-// router.post('/start/:sessionName/:email', (req, res) => {
+// routerApi.post('/start/:sessionName/:email', (req, res) => {
 //     const sessionName = req.params.sessionName;
 //     const email = req.params.email;
 
@@ -98,7 +98,7 @@ router.get('/api', (req, res) => {
 // });
 
 // Ruta GET para iniciar una nueva sesión de WhatsApp
-router.get('/start/:sessionName/:email', (req, res) => {
+routerApi.get('/start/:sessionName/:email', (req, res) => {
     // Aquí puedes realizar cualquier lógica adicional antes de redirigir
     const sessionName = req.params.sessionName;
     const email = req.params.email;
@@ -107,7 +107,7 @@ router.get('/start/:sessionName/:email', (req, res) => {
 });
 
 // Ruta para iniciar una nueva sesión de WhatsApp
-router.post('/start/:sessionName/:email', (req, res) => {
+routerApi.post('/start/:sessionName/:email', (req, res) => {
     const sessionName = req.params.sessionName;
     const email = req.params.email;
 
@@ -130,7 +130,7 @@ router.post('/start/:sessionName/:email', (req, res) => {
 });
 
 // Ruta para detener el cliente y eliminar una sesión de WhatsApp por medio del borrado de la carpeta en local
-router.post('/stop/:sessionName/:email', async (req, res) => {
+routerApi.post('/stop/:sessionName/:email', async (req, res) => {
     const sessionName = req.params.sessionName;
     const email = req.params.email;
 
@@ -153,7 +153,7 @@ router.post('/stop/:sessionName/:email', async (req, res) => {
 });
 
 // Ruta para pausar una sesión de WhatsApp sin eliminarla
-router.post('/pause/:sessionName/:email', async (req, res) => {
+routerApi.post('/pause/:sessionName/:email', async (req, res) => {
     const sessionName = req.params.sessionName;
     const email = req.params.email;
 
@@ -174,8 +174,8 @@ router.post('/pause/:sessionName/:email', async (req, res) => {
     }
 });
 
-router.post('/clients_request', (req, res) => {
+routerApi.post('/clients_request', (req, res) => {
     res.json(clients);
 });
 
-export default router;
+export default routerApi;
