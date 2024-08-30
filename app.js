@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -44,10 +45,18 @@ export const loggerWinston = winston.createLogger({
 
 
 // Establecer la ubicación de las vistas
-export const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+
+// Obtenemos __filename
+const __filename = fileURLToPath(import.meta.url);
+
+// Obtenemos __dirname
+export const __dirname = path.dirname(__filename);
+
 console.log('RAIZ:', __dirname);
 app.set('views', path.join(__dirname, 'views'));
+console.log('VIEWS:', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs'); // o el motor que estés usando
+
 // Configurar favicon
 app.use(favicon(__dirname + '/static/icons' + '/favicon.ico'));
 // Configuración de Morgan para registro de solicitudes
