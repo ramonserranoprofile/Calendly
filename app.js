@@ -13,6 +13,7 @@ import OpenAI from 'openai';
 import { loadExistingClients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';
+import favicon from 'serve-favicon';
 dotenv();
 
 const app = express();
@@ -41,15 +42,18 @@ export const loggerWinston = winston.createLogger({
     ],
 });
 
+
 // Establecer la ubicación de las vistas
 export const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+console.log('RAIZ:', __dirname);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
+app.set('view engine', 'ejs'); // o el motor que estés usando
+// Configurar favicon
+app.use(favicon(path.join(__dirname, 'static/icons', 'favicon.ico')));
 // Configuración de Morgan para registro de solicitudes
 // app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
 app.use(logger('dev'));
-const SESSIONS_PATH = path.resolve(__dirname, '../');
+
 
 // Cargar routers
 
