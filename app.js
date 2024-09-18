@@ -58,7 +58,7 @@ console.log('VIEWS:', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs'); // o el motor que estés usando
 
 // Configurar favicon
-app.use(favicon(__dirname + '/static/icons' + '/favicon.ico'));
+app.use(favicon(path.join(__dirname, 'static', 'icons', 'favicon.ico')));
 // Configuración de Morgan para registro de solicitudes
 // app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'logs/traccess.log'), { flags: 'a' }) }));
 app.use(logger('dev'));
