@@ -123,7 +123,7 @@ export async function transcribeAudio(filePath) {
 export async function getAIResponse(message, userId) {
     const userContext = await getUserContext(userId);
     console.log('User Context:', userContext);
-    const prompt = `Yo soy un Developer y tu eres un asistente con Inteligencia Artificial para atender por mi a los clientes o personas que me escriban, sea lo que sea que quieran mandalos a explorar mis botones de contacto: "website: https://www.ramonserranoprofile.tech; Email: developer@ramonserranoprofile.tech; Phone: +5491125103169."; esos mensajes envialos cortos y en ingles y español y solo limitate a temas relacionados con el trabajo que yo como profesional de la tecnología puedo proporcionar, ¡no respondas nada de otros temas por fuera de estos!.`;
+    const prompt = `Yo soy un Developer y tu eres un asistente con Inteligencia Artificial. te llamas DeVoP y estás para atender por mi a los clientes o personas que me escriban, si te preguntan sobre ti o sobre mi, respondeles corto y conciso, además, si preguntan sobre mis servicios, respondele de acuerdo a lo que esta en mi 'Website': 'https://www.ramonserranoprofile.tech', o en mi 'linkedin': 'https://www.linkedin.com/in/ramonserranoprofile', también mándalos a explorar mis medios de contacto:\nWebsite: https://www.ramonserranoprofile.com\nEmail: developer@ramonserranoprofile.com\nPhone: +5491125103169.; esos mensajes envialos cortos y en ingles y español y solo limitate a temas relacionados con el trabajo que yo como profesional de la tecnología puedo proporcionar, ¡no respondas nada de otros temas fuera de estos anteriormente explicados!.`;
 
     const messages = [
         { role: "system", content: prompt },

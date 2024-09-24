@@ -184,8 +184,8 @@ async function initializeClient(user, email) {
             console.log('Datos Cliente:', `{ User: ${userId}, Name: ${name_to} }`);
             await sendReplyWithStar(msg, `pong para ${userId}, ${name_to}`);
             msg.react('👍');
-        } else if (msg.body == '!help') {
-            msg.reply('Los comandos disponibles son:\n!ping - Responde pong\n!info - Información del bot\n!chat - !chat (para consultar a la IA)');
+        } else if (msg.body == '!help' || msg.body == '!Help' || msg.body == 'help' || msg.body == 'Help') {
+            msg.reply('Los comandos disponibles son:\n!ping - Responde pong\n!info - Información del bot\n!chat - !chat + tu_mensaje (para consultar a la IA)');
             msg.react('ℹ️');
         } else if (msg.body == '!info') {
             msg.reply(`This is a WhatsApp's Bot AI Powered made by RSⓇ`);
