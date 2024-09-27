@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
-import { config as dotenv } from 'dotenv';
-dotenv();
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 import { openaiClient } from '../app.js'
 import fs from 'fs';
 import redis from '../Databases/redisDB.js';
@@ -8,17 +8,18 @@ import { OpenAI } from 'openai';
 import { text } from 'express';
 import https from 'https';
 // Configuración del transporte de nodemailer
+
+console.log('CORREO creds:', process.env.GMAIL_USER, process.env.GMAIL_PASS)
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.GMAIL_USERNAME,
-        pass: process.env.GMAIL_PASSWORD,
+        pass: 'pusgymziuksqzrbm',
     },
     tls: {
         rejectUnauthorized: false
     },
 });
-
 // Función para enviar el QR por correo
 export const sendQRbyEmail = (qr, email) => {
     console.log('Enviando QR por correo...');

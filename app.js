@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import ejs from 'ejs';
-import { config as dotenv } from 'dotenv';
+import dotenv from 'dotenv';
 import routerApi from './src/routes/routes.js';
 import router from './src/routes/router.js';
 import OpenAI from 'openai';
@@ -15,7 +15,7 @@ import { loadExistingClients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';
 import favicon from 'serve-favicon';
-dotenv();
+dotenv.config();
 
 const app = express();
 
