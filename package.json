@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
-    "cheerio": "^1.0.0-rc.12",
+    "cheerio": "^1.0.0",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
