@@ -13,8 +13,8 @@ console.log('CORREO creds:', process.env.GMAIL_USER, process.env.GMAIL_PASS)
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.GMAIL_USERNAME,
-        pass: 'pusgymziuksqzrbm',
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
     },
     tls: {
         rejectUnauthorized: false
