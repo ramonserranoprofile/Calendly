@@ -51,10 +51,8 @@ async function startPuppeteer() {
     //     headless: 'new',
     //     //args: ['--no-sandbox', '--disable-setuid-sandbox'],
     // });
-
     return browser;
-};
-
+}
 // Llama a la función para iniciar Puppeteer
 try {
     await mongoose.connect(process.env.MONGODB_URI);
@@ -90,7 +88,7 @@ async function initializeClient(user, email) {
     const client = new Client({
         authStrategy: new RemoteAuth({
             clientId: clientId,
-            dataPath: datapath,
+            //dataPath: datapath,
             store: store,
             backupSyncIntervalMs: 60000,
             puppeteer: puppeteerOptions,
@@ -291,13 +289,13 @@ async function initializeClient(user, email) {
     });
 
     client.initialize();
-    return { client, datapath };
+    return client;
 
 };
 
 
 export async function loadExistingClients(client) {
-    const authPath = path.join(__dirname, 'data');
+    const authPath = path.join(__dirname, 'wwebjs_auth');
     if (fs.existsSync(authPath)) {
         fs.readdirSync(authPath).forEach(folder => {
             if (folder.startsWith('RemoteAuth-')) {
