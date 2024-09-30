@@ -57,6 +57,8 @@ app.set('views', path.join(__dirname, 'views'));
 console.log('VIEWS:', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs'); // o el motor que estés usando
 
+app.use(express.static(path.join(__dirname, 'templates')));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 // Configurar favicon
 app.use(favicon(path.join(__dirname, 'static', 'icons', 'favicon.ico')));
 // Configuración de Morgan para registro de solicitudes
