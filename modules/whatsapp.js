@@ -295,7 +295,8 @@ async function initializeClient(user, email) {
 
 
 export async function loadExistingClients(client) {
-    const authPath = path.join(__dirname, 'wwebjs_auth');
+    const authPath = path.join(__dirname, './.wwebjs_auth');
+    console.log('authPath:', authPath);
     if (fs.existsSync(authPath)) {
         fs.readdirSync(authPath).forEach(folder => {
             if (folder.startsWith('RemoteAuth-')) {

@@ -31,7 +31,7 @@ router.post('/contact', (req, res) => {
     });
 
     const mailOptions = {
-        from: process.env.IONOS_USER,
+        from: `"Web Contact Message" <${process.env.IONOS_USER}>`,
         to: process.env.IONOS_USER, // Asegúrate de que el email esté correctamente formateado
         subject: subject + `${name} just sent you a constact message!!`,
         text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`

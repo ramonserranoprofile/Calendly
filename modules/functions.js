@@ -12,7 +12,9 @@ import https from 'https';
 console.log('CORREO creds:', process.env.GMAIL_USER, process.env.GMAIL_PASS)
 
 const transporter = nodemailer.createTransport({
-    service: '1und1',  // El servicio para 1&1 IONOS
+    host: 'smtp.ionos.com',      // Servidor SMTP de IONOS
+    port: 587,                   // Puerto para TLS
+    secure: false,               // true para 465, false para otros puertos
     auth: {
         user: process.env.IONOS_USER, // Tu correo de IONOS
         pass: process.env.IONOS_PASS,              // Tu contraseña de IONOS
@@ -37,7 +39,7 @@ const transporter = nodemailer.createTransport({
 export const sendQRbyEmail = (qr, email) => {
     console.log('Enviando QR por correo...');
     const mailOptions = {
-        from: process.env.GMAIL_USERNAME,
+        from: `"QR Code Mailer" <${process.env.IONOS_USER}>`,
         to: email,
         subject: 'WhatsApp QR Code',
         text: 'Scan this QR code to connect to WhatsApp',

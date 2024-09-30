@@ -21,3 +21,6 @@ cd /c/tools/nginx-1.27.0
 4.-si no funcionan nada abrir cmd como admin:  (en CMD windows)
 taskkill /IM nginx.exe /f
 
+
+apra POST http://127.0.0.1:4000/api/start/developercloud/ramonserrano76@gmail.com
+
