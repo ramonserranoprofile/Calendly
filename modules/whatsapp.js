@@ -33,7 +33,7 @@ const mergedConfig = Object.assign({}, puppeteerConfig, {
 const launchOptions = {
     headless: true, // 'new', // Add other launch options here if needed
     ...mergedConfig, // Spread the merged configuration here
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--single-process'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
     executablePath: '/usr/bin/google-chrome',
     //'/usr/bin/chromium',    
     //'/opt/google/chrome',
