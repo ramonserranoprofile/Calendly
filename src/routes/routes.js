@@ -1,4 +1,7 @@
 import express from 'express';
+import path from 'path';
+import fs from 'fs';
+import { __dirname } from '../../app.js';
 import initializeClient, { clients } from '../../modules/whatsapp.js';
 // import ivrRouter from './ivr/routes.js';
 
@@ -114,9 +117,9 @@ routerApi.post('/start/:sessionName/:email', (req, res) => {
     const clientKey = `${sessionName}-_${email.replace('.', '_').replace('@', '-').replace('.', '_')}`;
 
     if (clients[clientKey]) {
-        console.log(`La sesión ${sessionName} ya está en funcionamiento.`);
+        console.log(`La sesión ${sessionName} está en funcionamiento.`);
         clients[clientKey].initialize();
-        return res.status(400).send(`La sesión ${sessionName} ya está en funcionamiento.`);
+        return res.status(400).send(`La sesión ${sessionName} está en funcionamiento.`);
     }
 
     try {
@@ -140,9 +143,37 @@ routerApi.post('/stop/:sessionName/:email', async (req, res) => {
         try {
             const client = clients[clientKey];
             await client.logout(); // Destruir el cliente
+            await client.destroy();
+            console.log('Cliente destruido');
             delete clients[clientKey]; // Eliminar la sesión del objeto clients
-            console.log(`Sesión ${sessionName} detenida y eliminada.`);
-            res.send(`Sesión ${sessionName} detenida y eliminada.`);
+            console.log('Sesión eliminada del objeto clients');
+
+            // Rutas de las carpetas de la sesión a eliminar
+            const sessionFolderRemoteAuth = path.join(__dirname, '.wwebjs_auth', `RemoteAuth-${sessionName}`);
+            const sessionFolderTempSession = path.join(__dirname, '.wwebjs_auth', `wwebjs_temp_session_${sessionName}`);
+
+            // Función para eliminar una carpeta
+            const deleteFolder = (folderPath) => {
+                if (fs.existsSync(folderPath)) {
+                    fs.rm(folderPath, { recursive: true, force: true }, (err) => {
+                        if (err) {
+                            console.error(`Error al eliminar la carpeta ${folderPath}:`, err);
+                        } else {
+                            console.log(`Carpeta ${folderPath} eliminada.`);
+                        }
+                    });
+                } else {
+                    console.log(`La carpeta ${folderPath} no existe.`);
+                }
+                console.log('Carpeta eliminada');
+            };
+
+            // Eliminar las carpetas de la sesión
+            setTimeout(() => {
+                deleteFolder(sessionFolderRemoteAuth);
+                deleteFolder(sessionFolderTempSession);
+                res.send(`Sesión ${sessionName} detenida y eliminada, y las carpetas correspondientes han sido eliminadas.`);
+            }, 3000);
         } catch (error) {
             console.error(`Error al detener la sesión ${sessionName}:`, error);
             return res.status(500).send(`Error al detener la sesión ${sessionName}.`);
@@ -162,7 +193,7 @@ routerApi.post('/pause/:sessionName/:email', async (req, res) => {
     if (clients[clientKey]) {
         try {
             const client = clients[clientKey];
-            await client.destroy();  // Destruir el cliente
+            await client.logout();  // Destruir el cliente
             console.log(`Sesión ${sessionName} pausada.`);
             res.send(`Sesión ${sessionName} pausada.`);
         } catch (error) {

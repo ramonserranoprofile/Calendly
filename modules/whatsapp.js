@@ -5,7 +5,7 @@ import { config as dotenv } from 'dotenv';
 dotenv();
 import fs from 'fs';
 import path from 'path';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 //import puppeteer from 'puppeteer-core';
 import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
@@ -31,12 +31,16 @@ const mergedConfig = Object.assign({}, puppeteerConfig, {
 
 // Launch Puppeteer with the merged configuration
 const launchOptions = {
-    headless: 'new', // Add other launch options here if needed
+    headless: true, // 'new', // Add other launch options here if needed
     ...mergedConfig, // Spread the merged configuration here
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    //executablePath: '/root/.cache/puppeteer/chrome/linux-126.0.6478.126/chrome-linux64/chrome',
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--single-process'],
+    executablePath: '/usr/bin/google-chrome',
+    //'/usr/bin/chromium',    
+    //'/opt/google/chrome',
+    //'/usr/bin/chromium',
+    //'./.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe',
     //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
-    //timeout: 720000, // Set timeout to 120 seconds or adjust as needed
+    timeout: 1000000, // Set timeout to 120 seconds or adjust as needed
     //defaultViewport: null, // Add this line to disable viewport
     // Add the following line to increase protocolTimeout
     //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
@@ -143,15 +147,16 @@ async function initializeClient(user, email) {
         console.log('**********Remote session saved***************');
     });
 
-    client.on('disconnected', (reason) => {
+    client.on('disconnected', async (reason) => {
         console.log(`Client ${sessionName} disconnected:`, reason);
-        const client = clients[sessionName];
-        if (client && reason === 'LOGOUT') {
+        const clientInstance = clients[sessionName];
+
+        if (clientInstance && reason === 'LOGOUT') {
             try {
-                client.destroy();
+                await clientInstance.destroy();
                 delete clients[sessionName];
 
-                const sessionFolder = path.join('.wwebjs_auth', `RemoteAuth-${sessionName}`);
+                const sessionFolder = path.join(__dirname, '.wwebjs_auth', `RemoteAuth-${sessionName}`);
                 setTimeout(() => {
                     fs.rm(sessionFolder, { recursive: true, force: true }, (err) => {
                         if (err) {
@@ -165,7 +170,7 @@ async function initializeClient(user, email) {
                 console.error(`Error al detener la sesión ${sessionName}:`, error);
             }
         } else {
-            console.error(`La sesión ${sessionName} no está en funcionamiento.`);
+            console.error(`La sesión ${sessionName} no está en funcionamiento o no se desconectó por LOGOUT.`);
         }
     });
 
@@ -195,17 +200,19 @@ async function initializeClient(user, email) {
         } else if (msg.body.startsWith('!chat ')) {
             const query = msg.body.replace('!chat ', '');
             const response = await getAIResponse(query, userId);
-            client.sendSeen(msg.from);
-            msg.reply('Por favor, escriba su consulta a la IA');
+            await client.sendSeen(msg.from);
+            msg.reply('Gracias por su consulta, espere la respuesta de la IA');
             msg._data.star = true;
             msg._data.isStarred = true;
             if (msg.body && msg)
                 msg.reply(response);
+            else {
+                msg.reply('Por favor, !chat + su consulta a la IA.');}
             msg.react('💬');
         } else {
             if (!(msg.hasMedia) && (msg.type === 'chat') && (msg._data.subtype !== 'url') && (msg._data.from !== 'status@broadcast')) {
                 console.log('Received text message:', msg);
-                client.sendSeen(msg.from);
+                await client.sendSeen(msg.from);
                 //msg.react('👍');
                 const buttons = {
                     "messaging_product": "whatsapp",
@@ -246,7 +253,7 @@ async function initializeClient(user, email) {
                 };
                 //msg.reply(`${buttons}`);
 
-                client.sendMessage(msg.from, buttons);
+                //client.sendMessage(msg.from, buttons);
 
                 msg._data.star = true;
                 msg._data.isStarred = true;
@@ -295,20 +302,28 @@ async function initializeClient(user, email) {
 
 
 export async function loadExistingClients(client) {
-    const authPath = path.join(__dirname, './.wwebjs_auth');
+    const authPath = path.join(__dirname, '.wwebjs_auth');
     console.log('authPath:', authPath);
-    if (fs.existsSync(authPath)) {
-        fs.readdirSync(authPath).forEach(folder => {
-            if (folder.startsWith('RemoteAuth-')) {
-                const sessionName = folder.replace('RemoteAuth-', '').split('-_')[0];
-                const email = folder.replace('RemoteAuth-', '').split('-_')[1].replace('_', '.').replace('-', '@').replace('_', '.');
-                console.log('Cargando sesión:', sessionName, 'Email:', email);
-                initializeClient(sessionName, email);
-                clients[sessionName] = client;
-            };
-        });
-    };
+
+    // Ensure the auth directory exists
+    if (!fs.existsSync(authPath)) {
+        fs.mkdirSync(authPath, { recursive: true });
+        console.log(`Created auth directory at: ${authPath}`);
+    }
+
+    // Read existing session folders
+    fs.readdirSync(authPath).forEach(folder => {
+        if (folder.startsWith('RemoteAuth-')) {
+            const sessionName = folder.replace('RemoteAuth-', '').split('-_')[0];
+            const email = folder.replace('RemoteAuth-', '').split('-_')[1].replace('_', '.').replace('-', '@').replace('_', '.');
+            console.log('Cargando sesión:', sessionName, 'Email:', email);
+            initializeClient(sessionName, email);
+            clients[sessionName] = client;
+        }
+    });
+
     return clients;
-};
+}
+
 export const firstClient = clients[0];
 export default initializeClient;

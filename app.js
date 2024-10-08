@@ -1,17 +1,17 @@
 import http from 'http';
 import express from 'express';
-import fs from 'fs';
+import ejs from 'ejs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import ejs from 'ejs';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import routerApi from './src/routes/routes.js';
 import router from './src/routes/router.js';
 import OpenAI from 'openai';
-import { loadExistingClients } from './modules/whatsapp.js';
+import { loadExistingClients, firstClient, clients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';
 import favicon from 'serve-favicon';
@@ -45,10 +45,8 @@ export const loggerWinston = winston.createLogger({
 
 
 // Establecer la ubicación de las vistas
-
 // Obtenemos __filename
 const __filename = fileURLToPath(import.meta.url);
-
 // Obtenemos __dirname
 export const __dirname = path.dirname(__filename);
 
@@ -72,7 +70,14 @@ app.use('/', router);
 app.use('/api', routerApi);
 
 // Función para cargar los clientes existentes al iniciar la aplicación
-loadExistingClients();
+// Example usage
+loadExistingClients().then(clients => {
+    console.log('Clients loaded:');
+}).catch(error => {
+    console.error('Error loading clients:', error);
+});
+// const client = clients[0]
+// loadExistingClients(client);
 
 // Middleware para manejar errores 404
 app.use((req, res, next) => {

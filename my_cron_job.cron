@@ -1,0 +1,3 @@
+# Contenido del archivo my_cron_job
+# my_cron_job
+* * * * * /usr/local/bin/change_permissions.sh >> /var/log/cron.log 2>&1

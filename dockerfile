@@ -1,59 +1,62 @@
-FROM debian:bullseye
-FROM node:20
+# Etapa de construcción
+FROM node:20.13.1-bookworm-slim AS build
+WORKDIR /app
 
-# No es necesario el Chromium independiente
-# ENV PUPPETEER_SKIP_DOWNLOAD false
-# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-
-# Instala las dependencias necesarias y actualiza los repositorios
-RUN apt-get update && \
-    apt-get install -y fontconfig \
-    curl \
-    gnupg \
-    nano \
-    wget \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxcursor1 \
-    libxdamage1 \
-    libxext6 \
-    libxi6 \
-    libxrandr2 \
-    libxtst6 \
-    libpango-1.0-0 \
-    fonts-noto-cjk \
-    && rm -rf /var/lib/apt/lists/*
-
-
-# Configura el usuario root
-USER root
-
-# Instala Google Chrome Stable
-RUN curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update \
-    && apt-get install google-chrome-stable -y --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
-
-# Establece el directorio de trabajo en el contenedor
-# WORKDIR /usr/src/app
-
-# Establece el directorio de trabajo en el contenedor
-WORKDIR /root
-
-# Copia los archivos de tu proyecto al contenedor
+# Instalar dependencias de Node.js
 COPY package*.json ./
-COPY .puppeteerrc.cjs ./
-# Copia el resto de los archivos
+# Limpiar la caché de npm y luego instalar dependencias
+RUN npm cache clean --force \
+    && npm install --cache /tmp/empty-cache --prefer-online --production
+
+
+# Copiar el código de la aplicación
 COPY . .
 
-# Instala las dependencias de la aplicación
-RUN npm install
+# Configurar Puppeteer para usar un directorio de caché personalizado y omitir la descarga de Chromium
+#ENV PUPPETEER_CACHE_DIR=/app/.cache/puppeteer
+#ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# Expón el puerto en el que se ejecuta tu aplicación (ajusta según tu aplicación)
-EXPOSE 8080
+# Crear un usuario no root
+#RUN useradd -ms /bin/bash puppeteeruser
+RUN mkdir -p /app/.cache/puppeteer /app/.wwebjs_auth /app/.wwebjs_cache /app/app /app/logs
 
-# Comando para iniciar la aplicación
-CMD ["npm", "start"]
+# Cambiar permisos de todo en /app excepto /node_modules
+#RUN find /app -path /app/node_modules -prune -o -exec chown puppeteeruser:puppeteeruser {} +
+
+# Etapa final
+FROM node:20.13.1-bookworm-slim AS final
+WORKDIR /app
+
+# Instalar Chrome y dependencias en la etapa final
+RUN apt-get update \
+    && apt-get install -y curl gnupg ca-certificates --no-install-recommends \
+    && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/google-linux-keyring.gpg arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+# Copiar solo los archivos necesarios desde la etapa de construcción
+COPY --from=build /app /app
+
+# Configurar Puppeteer para usar un directorio de caché personalizado y omitir la descarga de Chromium
+#ENV PUPPETEER_CACHE_DIR=/app/.cache/puppeteer
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+# Crear un usuario no root
+RUN useradd -ms /bin/bash puppeteeruser
+
+# Cambiar permisos de todo en /app excepto los directorios y archivos especificados
+
+RUN find /app/* -mindepth 1 -maxdepth 1 -type d -prune -o -exec chown puppeteeruser:puppeteeruser {} + \
+    && chown -R puppeteeruser:puppeteeruser /app/node_modules/whatsapp-web.js /app/node_modules/puppeteer/node_modules/puppeteer-core /app/.cache/puppeteer /app/.wwebjs_auth /app/.wwebjs_cache /app/app /app/logs
+
+# Configurar el usuario
+USER puppeteeruser
+
+# Exponer puertos
+EXPOSE 8080 4000 14119
+
+CMD [ "node", "index.js" ]

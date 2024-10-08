@@ -24,3 +24,34 @@ taskkill /IM nginx.exe /f
 
 apra POST http://127.0.0.1:4000/api/start/developercloud/ramonserrano76@gmail.com
 
+::DOCKER::
+
+BUILD:
+docker build -t ramonserrano76/calendly:v12.0 .
+
+RUN:
+docker run -p 4000:4000 ramonserrano76/calendly:v12.0
+
+PUSH TO DOCKER NETWORKS TO USE:
+docker push ramonserrano76/calendly:v12.0
+
+PARA VER IMAGENES DISPONIBLES:
+docker images
+
+PARA BORRAR UNA IMAGEN POR NOMBRE Y TAG:
+docker rmi nombre_imagen:tag
+
+PARA LISTA LOS CONTAINERS:
+docker ps -a
+
+PARA DETENER UN CONTAINER:
+docker stop ID_contenedor
+
+PARA ELIMINAR UN CONTAINER;
+docker rm ID_contenedor
+
+PARA LIMPUAR CACHE , ESPACIO E IMAGENES NO UTILIZADAS:
+docker system prune
+
+PARA VER DETALLES ESPECIFICOS DE UNA IMAGEN:
+docker inspect nombre_imagen:tag

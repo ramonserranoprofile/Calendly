@@ -1,6 +1,6 @@
 services:  
   desktop:    
-    image: ramonserrano76/calendly:v11.0
+    image: ramonserrano76/calendly:v12.0
     cap_add:
       - DAC_OVERRIDE
       - SYS_CHROOT

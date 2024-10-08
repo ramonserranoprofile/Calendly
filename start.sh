@@ -6,14 +6,14 @@ set -e
 #bash -c '/root/Documents/chrome.sh'
 
 # Activa el entorno virtual de Flask
-. /venv/bin/activate
-
+# . /venv/bin/activate
+cd /app
 # Activa el entorno virtual de Express
-node index.js &
+node index.js
 
-gunicorn --bind 127.0.0.1:5000 process_form:app &
+# gunicorn --bind 127.0.0.1:5000 process_form:app &
 #flask --app=/app/process_form.py run &
 
 # Activa el entorno virtual de NGINX
-nginx -g 'daemon off;'
+# nginx -g 'daemon off;'
 # Activa el entorno virtual de NGINX
