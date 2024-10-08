@@ -27,13 +27,13 @@ apra POST http://127.0.0.1:4000/api/start/developercloud/ramonserrano76@gmail.co
 ::DOCKER::
 
 BUILD:
-docker build -t ramonserrano76/calendly:v12.0 .
+docker build --no-cache -t ramonserrano76/calendly:v25.0 .
 
 RUN:
-docker run -p 4000:4000 ramonserrano76/calendly:v12.0
+docker run -p 4000:4000 ramonserrano76/calendly:v25.0
 
 PUSH TO DOCKER NETWORKS TO USE:
-docker push ramonserrano76/calendly:v12.0
+docker push ramonserrano76/calendly:v25.0
 
 PARA VER IMAGENES DISPONIBLES:
 docker images
