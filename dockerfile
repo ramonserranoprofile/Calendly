@@ -62,6 +62,9 @@ RUN find /app/* -mindepth 1 -maxdepth 1 -type d -prune -o -exec chown puppeteeru
 # Añadir puppeteeruser al grupo sudo y configurar sudoers
 RUN usermod -aG sudo puppeteeruser \
     && echo 'puppeteeruser ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# Instalar libcap2-bin y otorgar permisos a nice
+RUN apt-get update && apt-get install -y libcap2-bin \
+    && setcap cap_sys_nice=eip /usr/bin/nice
 
 # Configurar el usuario
 USER puppeteeruser
