@@ -43,6 +43,8 @@ RUN apt-get update \
 # Copiar solo los archivos necesarios desde la etapa de construcción
 COPY --from=build /app /app
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 # Configurar Puppeteer para usar un directorio de caché personalizado y omitir la descarga de Chromium
 #ENV PUPPETEER_CACHE_DIR=/app/.cache/puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
@@ -53,21 +55,20 @@ RUN useradd -ms /bin/bash puppeteeruser
 # Cambiar permisos de todo en /app excepto los directorios y archivos especificados
 
 RUN find /app/* -mindepth 1 -maxdepth 1 -type d -prune -o -exec chown puppeteeruser:puppeteeruser {} + \
-    && chown -R puppeteeruser:puppeteeruser /app/node_modules/whatsapp-web.js /app/node_modules/puppeteer/node_modules/puppeteer-core /app/.cache/puppeteer /app/.wwebjs_auth /app/.wwebjs_cache /app/app /app/logs
+    && chown -R puppeteeruser:puppeteeruser /entrypoint.sh /app/node_modules/whatsapp-web.js /app/node_modules/puppeteer/node_modules/puppeteer-core /app/.cache/puppeteer /app/.wwebjs_auth /app/.wwebjs_cache /app/app /app/logs
+
+# Añadir puppeteeruser al grupo sudo
+
+# Añadir puppeteeruser al grupo sudo y configurar sudoers
+RUN usermod -aG sudo puppeteeruser \
+    && echo 'puppeteeruser ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Configurar el usuario
 USER puppeteeruser
 
 # Exponer puertos
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 EXPOSE 8080 4000 14119
 
 
 ENTRYPOINT ["/entrypoint.sh"]
-
-
-
 #CMD [ "node", "index.js" ]
