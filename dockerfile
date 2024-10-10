@@ -27,9 +27,11 @@ RUN mkdir -p /app/.cache/puppeteer /app/.wwebjs_auth /app/.wwebjs_cache /app/app
 FROM node:20.13.1-bookworm-slim AS final
 WORKDIR /app
 
+# Actualiza los repositorios y systemd
+
 # Instalar Chrome y dependencias en la etapa final
 RUN apt-get update \
-    && apt-get install -y curl gnupg ca-certificates --no-install-recommends \
+    && apt-get install -y curl gnupg ca-certificates sudo systemd procps --no-install-recommends \
     && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/google-linux-keyring.gpg arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
     && apt-get update \
@@ -57,6 +59,15 @@ RUN find /app/* -mindepth 1 -maxdepth 1 -type d -prune -o -exec chown puppeteeru
 USER puppeteeruser
 
 # Exponer puertos
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8080 4000 14119
 
-CMD [ "node", "index.js" ]
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+
+
+#CMD [ "node", "index.js" ]
