@@ -11,7 +11,6 @@ import dotenv from 'dotenv';
 import routerApi from './src/routes/routes.js';
 import router from './src/routes/router.js';
 import OpenAI from 'openai';
-import { loadExistingClients, firstClient, clients } from './modules/whatsapp.js';
 import winston from 'winston';
 import logger from 'morgan';
 import favicon from 'serve-favicon';
@@ -71,11 +70,13 @@ app.use('/api', routerApi);
 
 // Función para cargar los clientes existentes al iniciar la aplicación
 // Example usage
-loadExistingClients().then(clients => {
-    console.log('Clients loaded:');
-}).catch(error => {
-    console.error('Error loading clients:', error);
-});
+// loadExistingClients().then(clients => {
+//     console.log('Clients loaded:', clients);
+//     console.log('First client:', firstClient);
+// }).catch(error => {
+//     console.error('Error loading clients:', error);
+//     process.exit(1);
+// });
 // const client = clients[0]
 // loadExistingClients(client);
 
