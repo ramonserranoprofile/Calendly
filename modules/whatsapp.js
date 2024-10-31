@@ -34,11 +34,11 @@ const launchOptions = {
     headless: true, // 'new', // Add other launch options here if needed
     ...mergedConfig, // Spread the merged configuration here
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
-    executablePath: //'/usr/bin/google-chrome',
+    executablePath: '/usr/bin/google-chrome',
     //'/usr/bin/chromium',    
     //'/opt/google/chrome',
     //'/usr/bin/chromium',
-    './.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe',
+    // './.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe',
     //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
     timeout: 1000000, // Set timeout to 120 seconds or adjust as needed
     //defaultViewport: null, // Add this line to disable viewport
