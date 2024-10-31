@@ -300,12 +300,36 @@ async function initializeClient(user, email) {
         return userId;
     });
 
-    client.on('error', (err) => {
-        console.error('WhatsApp Client Error:', err);
-        if (err.code === 'ECONNRESET') {
-            setTimeout(() => {
-                client.initialize();
-            }, 10000);
+    client.on('error', async (error) => {
+        console.error('WhatsApp Client Error:', error);
+
+        // Handle specific error messages and codes
+        if (error.code === 'ECONNRESET') {
+            console.warn('Connection reset detected. Reinitializing in 10 seconds...');
+            setTimeout(() => client.initialize(), 10000);
+
+        } else if (error.code === 'ENOTFOUND') {
+            console.warn('Network issue: Host not found. Rechecking in 30 seconds...');
+            setTimeout(() => client.initialize(), 30000);
+
+        } else if (error.code === 'ETIMEDOUT') {
+            console.warn('Connection timed out. Retrying initialization in 20 seconds...');
+            setTimeout(() => client.initialize(), 20000);
+
+        } else if (error.message.includes('Execution context was destroyed')) {
+            console.log('Handling "Execution context was destroyed" error. Attempting recovery...');
+            try {
+                await client.destroy();  // Clean up the existing client instance
+                await client.initialize();  // Reinitialize the client
+                console.log('Reconnection attempt successful.');
+            } catch (reconnectError) {
+                console.error('Error during reconnection attempt:', reconnectError);
+            }
+
+        } else {
+            // General error handling for unhandled cases
+            console.warn('Unhandled client error encountered. Restarting client as a fallback.');
+            setTimeout(() => client.initialize(), 15000);
         }
     });
 
@@ -317,6 +341,7 @@ async function initializeClient(user, email) {
         console.log('Client session changed:', state);
     });
 
+    
     client.initialize();
     return client;
 
