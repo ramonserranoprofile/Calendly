@@ -85,9 +85,18 @@ async function initializeClient(user, email) {
         const puppeteerOptions = {
             browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
             // Add other Puppeteer options here if needed            
-        }
+        };
+
+        // Devuelve las opciones de Puppeteer
         return puppeteerOptions;
+    }).then(puppeteerOptions => {
+        // Resuelve la promesa con el navegador
+        resolve(puppeteerOptions.browser);
+    }).catch(err => {
+        // Maneja cualquier error que ocurra
+        reject(err);
     });
+
     const datapath = path.join(__dirname, 'data')
     const client = new Client({
         authStrategy: new RemoteAuth({
@@ -207,7 +216,8 @@ async function initializeClient(user, email) {
             if (msg.body && msg)
                 msg.reply(response);
             else {
-                msg.reply('Por favor, !chat + su consulta a la IA.');}
+                msg.reply('Por favor, !chat + su consulta a la IA.');
+            }
             msg.react('💬');
         } else {
             if (!(msg.hasMedia) && (msg.type === 'chat') && (msg._data.subtype !== 'url') && (msg._data.from !== 'status@broadcast')) {
