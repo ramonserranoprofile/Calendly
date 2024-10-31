@@ -7,16 +7,9 @@ import redis from '../Databases/redisDB.js';
 import { OpenAI } from 'openai';
 import { text } from 'express';
 import https from 'https';
-
-import { promisify } from 'util';
-const redisKeys = promisify(redis.keys).bind(redis);
-const redisGet = promisify(redis.get).bind(redis);
-const redisDel = promisify(redis.del).bind(redis);
-
-
+import os from 'os';
 
 // Configuración del transporte de nodemailer
-
 console.log('CORREO creds:', process.env.GMAIL_USER, process.env.GMAIL_PASS)
 
 const transporter = nodemailer.createTransport({
@@ -31,6 +24,7 @@ const transporter = nodemailer.createTransport({
         rejectUnauthorized: false, // Opcional, para evitar problemas de certificados SSL
     },
 });
+
 // const transporter = nodemailer.createTransport({
 //     service: 'gmail',
 //     auth: {
@@ -107,7 +101,6 @@ export async function resetUserContext(userId) {
     await redis.del(`context:${userId}`);
 }
 
-
 async function checkAndResetUserContext(userId) {
     const context = await redis.get(`context:${userId}`);
     if (context) {
@@ -129,7 +122,6 @@ export async function resetOldContexts() {
         await checkAndResetUserContext(userId);
     }
 }
-
 
 export async function transcribeAudio(filePath) {
     const maxRetries = 3;
@@ -191,7 +183,7 @@ export async function getAIResponse(message, userId) {
 
     const completion = await openaiClient.chat.completions.create({
         messages: messages,
-        model: 'gpt-4o-2024-05-13',
+        model: 'gpt-4o-2024-08-06',
         n: 1,
         max_tokens: 2000,
         stop: null,
@@ -204,9 +196,10 @@ export async function getAIResponse(message, userId) {
     let responseMessage = '';
     try {
         for await (const chunk of completion) {
-            if (chunk.choices[0].delta.content) {
-                process.stdout.write(chunk.choices[0].delta.content);
-                responseMessage += chunk.choices[0].delta.content;
+            const content = chunk.choices[0].delta?.content;
+            if (content) {
+                process.stdout.write(content);
+                responseMessage += content;
             } else {
                 console.error('Received undefined chunk content:', chunk);
             }
@@ -222,25 +215,13 @@ export async function getAIResponse(message, userId) {
     return responseMessage;
 }
 
-// export async function getAIResponse(message, userId) {
-//     try {
-//         const userContext = await getUserContext(userId);
-//         const response = await axios.post(
-//             'https://api-inference.huggingface.co/models/EleutherAI/gpt-neo-2.7B',
-//             { inputs: message },
-//             {
-//                 headers: {
-//                     'Authorization': `Bearer + ${process.env.HFACE_TOKEN}`,
-//                     'Content-Type': 'application/json'
-//                 }
-//             }
-//         );
-
-//         const responseMessage = response.data[0].generated_text;
-//         console.log('AI Response:', responseMessage);
-//         return responseMessage;
-//     } catch (error) {
-//         console.error('Error al obtener respuesta de la IA:', error);
-//         throw error;
-//     }
-// }
+export function getExecutablePath() {
+    const platform = os.platform();
+    if (platform === 'win32') {
+        return './.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe';
+    } else if (platform === 'linux') {
+        return '/usr/bin/google-chrome';
+    } else {
+        throw new Error('Unsupported platform: ' + platform);
+    }
+}

@@ -6,7 +6,7 @@ dotenv();
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer-core';
-//import puppeteer from 'puppeteer-core';
+//import puppeteer from 'puppeteer';
 import { __dirname } from '../app.js';
 const { Client, RemoteAuth, Buttons, List, MessageMedia } = pkg;
 import { MongoStore } from 'wwebjs-mongo';
@@ -17,14 +17,13 @@ import {
     resetUserContext,
     transcribeAudio,
     getAIResponse,
+    getExecutablePath,
 } from './functions.js'
 import puppeteerConfig from '../.puppeteerrc.mjs';
+
 export const clients = [];
 
-
-// Función para iniciar Puppeteer con los argumentos necesarios
 // Merge the Puppeteer configuration with the default options
-
 const mergedConfig = Object.assign({}, puppeteerConfig, {
     // Add other default options here if needed
 });
@@ -34,30 +33,19 @@ const launchOptions = {
     headless: true, // 'new', // Add other launch options here if needed
     ...mergedConfig, // Spread the merged configuration here
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
-    executablePath: '/usr/bin/google-chrome',
-    //'/usr/bin/chromium',    
-    //'/opt/google/chrome',
-    //'/usr/bin/chromium',
-    // './.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe',
-    //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
+    executablePath: getExecutablePath(),    
     timeout: 1000000, // Set timeout to 120 seconds or adjust as needed
     //defaultViewport: null, // Add this line to disable viewport
     // Add the following line to increase protocolTimeout
     //protocolTimeout: 720000, // Set protocolTimeout to 360 seconds or adjust as needed
 };
+
+// Función para iniciar Puppeteer con los argumentos necesarios
 async function startPuppeteer() {
-    const browser = await puppeteer.launch(launchOptions);
-    // await puppeteer.launch({
-    //     executablePath: // './node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',
-    //     //'./chrome/win64-126.0.6478.126/chrome-win64/chrome.exe',
-    //     //'/usr/bin/chromium',
-    //     '/usr/bin/google-chrome',
-    //     headless: 'new',
-    //     //args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // });
+    const browser = await puppeteer.launch(launchOptions);    
     return browser;
 }
-// Llama a la función para iniciar Puppeteer
+// Conexión a MongoDB
 try {
     await mongoose.connect(process.env.MONGODB_URI);
     if (mongoose.connection.readyState === 1) {
@@ -67,6 +55,7 @@ try {
     console.error('Error al conectar a MongoDB:', err);
 }
 
+// Llama a la función para iniciar Puppeteer
 async function initializeClient(user, email) {
     let cleanEmail;
     try {
@@ -79,23 +68,9 @@ async function initializeClient(user, email) {
     const clientId = `${user}-_${cleanEmail}`;
     const store = new MongoStore({ mongoose: mongoose });
     const SESSIONS_PATH = path.resolve(__dirname, '../');
+    
     let puppeteerOptions
-    // startPuppeteer().then(browser => {
-    //     // Puedes usar 'browser' aquí para navegar por la web u otras tareas
-    //     const puppeteerOptions = {
-    //         browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
-    //         // Add other Puppeteer options here if needed            
-    //     };
-
-    //     // Devuelve las opciones de Puppeteer
-    //     return puppeteerOptions;
-    // }).then(puppeteerOptions => {
-    //     // Resuelve la promesa con el navegador
-    //     resolve(puppeteerOptions.browser);
-    // }).catch(err => {
-    //     // Maneja cualquier error que ocurra
-    //     reject(err);
-    // });
+    
     new Promise((resolve, reject) => {
         startPuppeteer().then(browser => {
             const puppeteerOptions = {
@@ -108,7 +83,6 @@ async function initializeClient(user, email) {
         });
     });
 
-
     const datapath = path.join(__dirname, 'data')
     const client = new Client({
         authStrategy: new RemoteAuth({
@@ -116,14 +90,7 @@ async function initializeClient(user, email) {
             //dataPath: datapath,
             store: store,
             backupSyncIntervalMs: 60000,
-            puppeteer: puppeteerOptions,
-            // puppeteer: {
-            //     headless: true,
-            //     args: [
-            //         '--no-sandbox',
-            //         '--disable-setuid-sandbox',
-            //     ],
-            // },
+            puppeteer: puppeteerOptions,            
             dumpio: true,
         })
     })
@@ -300,6 +267,14 @@ async function initializeClient(user, email) {
         return userId;
     });
 
+    client.on('change_state', (state) => {
+        console.log('Client state changed:', state);
+    });
+
+    client.on('change_session', (state) => {
+        console.log('Client session changed:', state);
+    });
+
     client.on('error', async (error) => {
         console.error('WhatsApp Client Error:', error);
 
@@ -333,20 +308,9 @@ async function initializeClient(user, email) {
         }
     });
 
-    client.on('change_state', (state) => {
-        console.log('Client state changed:', state);
-    });
-
-    client.on('change_session', (state) => {
-        console.log('Client session changed:', state);
-    });
-
-    
     client.initialize();
     return client;
-
 };
-
 
 export async function loadExistingClients(client) {
     const authPath = path.join(__dirname, '.wwebjs_auth');
