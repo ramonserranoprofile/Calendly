@@ -7,6 +7,14 @@ import redis from '../Databases/redisDB.js';
 import { OpenAI } from 'openai';
 import { text } from 'express';
 import https from 'https';
+
+import { promisify } from 'util';
+const redisKeys = promisify(redis.keys).bind(redis);
+const redisGet = promisify(redis.get).bind(redis);
+const redisDel = promisify(redis.del).bind(redis);
+
+
+
 // Configuración del transporte de nodemailer
 
 console.log('CORREO creds:', process.env.GMAIL_USER, process.env.GMAIL_PASS)
@@ -92,12 +100,36 @@ async function saveUserContext(userId, context) {
     if (context.length > maxContextSize) {
         context = context.slice(-maxContextSize);
     }
-    await redis.set(`context:${userId}`, JSON.stringify(context), 'EX', 3600); // Expire in 1 hour
+    await redis.set(`context:${userId}`, JSON.stringify(context), 'EX', 86400); // Expire in 1 day
 }
 
 export async function resetUserContext(userId) {
     await redis.del(`context:${userId}`);
 }
+
+
+async function checkAndResetUserContext(userId) {
+    const context = await redis.get(`context:${userId}`);
+    if (context) {
+        const parsedContext = JSON.parse(context);
+        const currentTime = Date.now();
+        const thirtyDaysInMilliseconds = 30 * 24 * 60 * 60 * 1000;
+
+        // Verificar si el contexto tiene más de 30 días
+        if (parsedContext.length > 0 && (currentTime - parsedContext[0].timestamp) > thirtyDaysInMilliseconds) {
+            await resetUserContext(userId);
+        }
+    }
+}
+
+export async function resetOldContexts() {
+    const keys = await redis.keys('context:*');
+    for (const key of keys) {
+        const userId = key.split(':')[1];
+        await checkAndResetUserContext(userId);
+    }
+}
+
 
 export async function transcribeAudio(filePath) {
     const maxRetries = 3;
@@ -165,12 +197,26 @@ export async function getAIResponse(message, userId) {
         stop: null,
         temperature: 0.7,
         user: userId,
-        stream: false,
+        stream: true,
 
     });
 
+    let responseMessage = '';
+    try {
+        for await (const chunk of completion) {
+            if (chunk.choices[0].delta.content) {
+                process.stdout.write(chunk.choices[0].delta.content);
+                responseMessage += chunk.choices[0].delta.content;
+            } else {
+                console.error('Received undefined chunk content:', chunk);
+            }
+        }
+    } catch (error) {
+        console.error('Error processing completion stream:', error);
+    }
+
     console.log('COMPLETION:', completion);
-    const responseMessage = completion.choices[0].message.content;
+    //responseMessage = completion.choices[0].message.content;
     console.log('AI Response:', responseMessage);
     await saveUserContext(userId, [...userContext, { role: 'user', content: message }, { role: 'assistant', content: responseMessage }]);
     return responseMessage;

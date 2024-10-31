@@ -34,11 +34,11 @@ const launchOptions = {
     headless: true, // 'new', // Add other launch options here if needed
     ...mergedConfig, // Spread the merged configuration here
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
-    executablePath: '/usr/bin/google-chrome',
+    executablePath: //'/usr/bin/google-chrome',
     //'/usr/bin/chromium',    
     //'/opt/google/chrome',
     //'/usr/bin/chromium',
-    //'./.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe',
+    './.cache/puppeteer/chrome/win64-127.0.6533.88/chrome-win64/chrome.exe',
     //'./node_modules/whatsapp-web.js/node_modules/puppeteer-core/.local-chromium/win64-1045629/chrome-win/chrome.exe',    
     timeout: 1000000, // Set timeout to 120 seconds or adjust as needed
     //defaultViewport: null, // Add this line to disable viewport
@@ -73,29 +73,41 @@ async function initializeClient(user, email) {
         cleanEmail = email.replace(/@/g, '-').replace(/\./g, '_').replace(/[^a-zA-Z0-9-_@.]/g, '');
     } catch (error) {
         console.error('Error al limpiar el email:', error);
-        cleanEmail = '';
+        cleanEmail = 'mail@mail.com';
     }
     const sessionName = `${user}-_${cleanEmail}`;
     const clientId = `${user}-_${cleanEmail}`;
     const store = new MongoStore({ mongoose: mongoose });
     const SESSIONS_PATH = path.resolve(__dirname, '../');
     let puppeteerOptions
-    startPuppeteer().then(browser => {
-        // Puedes usar 'browser' aquí para navegar por la web u otras tareas
-        const puppeteerOptions = {
-            browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
-            // Add other Puppeteer options here if needed            
-        };
+    // startPuppeteer().then(browser => {
+    //     // Puedes usar 'browser' aquí para navegar por la web u otras tareas
+    //     const puppeteerOptions = {
+    //         browser: browser // 'browser' es la instancia de Puppeteer que iniciaste por separado
+    //         // Add other Puppeteer options here if needed            
+    //     };
 
-        // Devuelve las opciones de Puppeteer
-        return puppeteerOptions;
-    }).then(puppeteerOptions => {
-        // Resuelve la promesa con el navegador
-        resolve(puppeteerOptions.browser);
-    }).catch(err => {
-        // Maneja cualquier error que ocurra
-        reject(err);
+    //     // Devuelve las opciones de Puppeteer
+    //     return puppeteerOptions;
+    // }).then(puppeteerOptions => {
+    //     // Resuelve la promesa con el navegador
+    //     resolve(puppeteerOptions.browser);
+    // }).catch(err => {
+    //     // Maneja cualquier error que ocurra
+    //     reject(err);
+    // });
+    new Promise((resolve, reject) => {
+        startPuppeteer().then(browser => {
+            const puppeteerOptions = {
+                browser: browser
+            };
+            resolve(puppeteerOptions.browser);
+            return puppeteerOptions
+        }).catch(err => {
+            reject(err);
+        });
     });
+
 
     const datapath = path.join(__dirname, 'data')
     const client = new Client({
@@ -334,6 +346,8 @@ export async function loadExistingClients(client) {
 
     return clients;
 }
+const clientKeys = Object.keys(clients);
+const firstClientKey = clientKeys[0];
+export const firstClient = clients[firstClientKey];
 
-export const firstClient = clients[0];
 export default initializeClient;
